@@ -1,7 +1,17 @@
 import './App.css';
 
-function App() {
-  return <div className="App"></div>;
-}
+import { BrowserRouter as Router } from 'react-router-dom';
+
+import AnimatedRoutes from './components/AnimatedRoutes/AnimatedRoutes';
+
+const App = () => {
+  return (
+    <div>
+      <Router>
+        <AnimatedRoutes />
+      </Router>
+    </div>
+  );
+};
 
 export default App;
