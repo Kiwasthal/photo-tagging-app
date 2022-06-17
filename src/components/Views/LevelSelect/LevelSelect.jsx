@@ -1,5 +1,6 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const dropIn = {
   hidden: {
@@ -39,6 +40,9 @@ const LevelSelect = () => {
       exit="exit"
     >
       <h1>Select level</h1>
+      <Link to={'/level-one'}>
+        <button>Level 1</button>
+      </Link>
     </LevelSelectContainer>
   );
 };

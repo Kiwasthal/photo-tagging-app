@@ -18,6 +18,8 @@ body {
   background: var(--dark);
   font-family: 'Montserrat', sans-serif;
   overflow: hidden;
+  height: 100vh;
+  width: 100vw;
 }
 
 button {
@@ -34,20 +36,6 @@ button {
   font-family: 'Montserrat', sans-serif;
 }
 
-.backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background: #000000e1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow-y: hidden;
-  z-index: 9000;
-}
-
 .modal {
   width: clamp(50%, 700px, 90%);
   height: min(50%, 300px);
@@ -58,6 +46,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 1001;
 }
 
 .orange-gradient {

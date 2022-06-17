@@ -11,7 +11,7 @@ const dropIn = {
     y: '0',
     opacity: 1,
     transition: {
-      duration: 0.1,
+      duration: 0.05,
       type: 'spring',
       damping: 25,
       stiffness: 500,
@@ -23,7 +23,7 @@ const dropIn = {
   },
 };
 
-const Modal = ({ handleClose, text }) => {
+const Modal = () => {
   return (
     <Backdrop>
       <motion.div
@@ -34,9 +34,8 @@ const Modal = ({ handleClose, text }) => {
         animate="visible"
         exit="exit"
       >
-        <p>{text}</p>
-        <Link to={'/LevelSelect'}>
-          <button onClick={handleClose}>Close</button>
+        <Link to={'/level-select'}>
+          <button>Close</button>
         </Link>
       </motion.div>
     </Backdrop>
