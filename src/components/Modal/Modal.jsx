@@ -25,20 +25,18 @@ const dropIn = {
 
 const Modal = () => {
   return (
-    <Backdrop>
-      <motion.div
-        onClick={e => e.stopPropagation()}
-        className="modal orange-gradient"
-        variants={dropIn}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-      >
-        <Link to={'/level-select'}>
-          <button>Close</button>
-        </Link>
-      </motion.div>
-    </Backdrop>
+    <motion.div
+      onClick={e => e.stopPropagation()}
+      className="modal orange-gradient"
+      variants={dropIn}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      <Link to={'/level-select'}>
+        <button>Close</button>
+      </Link>
+    </motion.div>
   );
 };
 

@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { LevelContainer } from '../../StyledComponents/LevelContainer';
 import levelImage from '../../../Assets/levelOne.jpg';
+import { useState } from 'react';
+import useHover from '../../../Hooks/useHover';
 
 const swirl = {
   hidden: {
@@ -36,7 +38,11 @@ const LevelImage = styled.div`
   background-position: center;
 `;
 
+const cursor = styled.div``;
+
 const LevelOne = () => {
+  const [imagehovered, isImageHovered] = useHover(false);
+
   return (
     <LevelContainer
       onClick={e => e.stopPropagation()}
@@ -46,7 +52,9 @@ const LevelOne = () => {
       animate="visible"
       exit="exit"
     >
-      <LevelImage />
+      <LevelImage ref={imagehovered}>
+        {isImageHovered ? <div>okay</div> : null}
+      </LevelImage>
     </LevelContainer>
   );
 };
