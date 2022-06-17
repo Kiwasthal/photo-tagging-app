@@ -1,4 +1,4 @@
-import Modal from '../Modal/Modal';
+import Modal from '../../Modal/Modal';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { useEffect, useState } from 'react';
