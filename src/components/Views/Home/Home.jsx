@@ -6,11 +6,7 @@ import { useState } from 'react';
 const Home = () => {
   const [modalOpen, setModalOpen] = useState(true);
 
-  return (
-    <AnimatePresence initial={true}>
-      <Modal modalOpen={modalOpen} />
-    </AnimatePresence>
-  );
+  return <Modal modalOpen={modalOpen} />;
 };
 
 export default Home;

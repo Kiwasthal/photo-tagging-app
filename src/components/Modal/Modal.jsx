@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import Backdrop from '../Backdrop/Backgrop';
+import { Link } from 'react-router-dom';
 
 const dropIn = {
   hidden: {
@@ -34,7 +35,9 @@ const Modal = ({ handleClose, text }) => {
         exit="exit"
       >
         <p>{text}</p>
-        <button onClick={handleClose}>Close</button>
+        <Link to={'/LevelSelect'}>
+          <button onClick={handleClose}>Close</button>
+        </Link>
       </motion.div>
     </Backdrop>
   );
