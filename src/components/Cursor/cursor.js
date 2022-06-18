@@ -17,9 +17,13 @@ const CursorSvg = styled.svg.attrs(props => ({
   style: {
     left: props.x,
     top: props.y,
-    transform: `translate(-50%, -50%) scale(${props.cursor.active ? 2.5 : 1})`,
-    stroke: `${props.cursor.active ? 'black' : 'red'}`,
-    fill: `${props.cursor.active}` ? 'rgba(255, 255, 255, .5' : 'black',
+    transform: `translate(-50%, -50%) scale(${
+      props.mistake.mistake ? 2 : props.cursor.active ? 2.5 : 1
+    })`,
+    stroke: `${
+      props.mistake.mistake ? 'red' : props.cursor.active ? 'black' : 'red'
+    }`,
+    fill: `${props.cursor.active} ` ? 'rgba(255, 255, 255, .5' : 'black',
   },
 }))`
   position: absolute;
@@ -29,12 +33,13 @@ const CursorSvg = styled.svg.attrs(props => ({
 
 const Cursor = () => {
   const { clientX, clientY } = useMousePosition();
-  const [cursor] = useContext(CursorContext);
-
+  const [cursor, , mistake] = useContext(CursorContext);
+  console.log(mistake);
   return (
     <FixedCursor>
       <CursorSvg
         cursor={cursor}
+        mistake={mistake}
         width={50}
         height={50}
         viewBox="0 0 50 50"

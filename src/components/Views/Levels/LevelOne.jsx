@@ -50,18 +50,20 @@ const WaldoBox = styled(motion.div)`
   left: 74.5%;
   top: 2%;
   transition: all 500ms ease-in-out;
-  opacity: 1;
+  opacity: ${props => props.attrs.opacity};
 `;
 
 const LevelOne = () => {
   const [imagehovered, isImageHovered] = useHover(false);
-  const [, setCursor] = useContext(CursorContext);
+  const [, setCursor, , setMistake] = useContext(CursorContext);
+
   const [waldoDisplay, setWaldoDisplay] = useState({
     opacity: 0,
     transform: '',
   });
 
-  const waldoClicked = () => {
+  const waldoClicked = e => {
+    e.stopPropagation();
     setWaldoDisplay({
       opacity: 1,
       transform: 'scale(1)',
@@ -70,6 +72,10 @@ const LevelOne = () => {
 
   const toggleCursor = useCallback(() => {
     setCursor(({ active }) => ({ active: !active }));
+  });
+
+  const cursorHandleMistake = useCallback(() => {
+    setMistake(() => ({ mistake: true }));
   });
 
   const hoverHandler = {
@@ -89,9 +95,9 @@ const LevelOne = () => {
         ref={imagehovered}
         src={levelImage}
         {...hoverHandler}
-        onClick={e => console.log(e)}
+        onClick={cursorHandleMistake}
       />
-      <WaldoBox />
+      <WaldoBox onClick={waldoClicked} attrs={waldoDisplay} />
     </LevelContainer>
   );
 };
