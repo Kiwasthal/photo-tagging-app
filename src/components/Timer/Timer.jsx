@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 
@@ -37,27 +37,27 @@ const LevelTimer = styled(motion.div)`
   background-color: red;
   bottom: 0;
   left: 40px;
-  z-index: 9999;
+  z-index: 1002;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const Timer = () => {
-  const [time, setTime] = useState(0);
+const Timer = ({ clock }) => {
   const location = useLocation();
 
   useEffect(() => {
-    setTime(0);
+    clock.setTimeLapsed(0);
   }, [location]);
 
   useEffect(() => {
     let interval;
-    interval = setInterval(() => {
-      setTime(prevTime => prevTime + 10);
-    }, 10);
+    if (clock.isRunning)
+      interval = setInterval(() => {
+        clock.setTimeLapsed(prevTime => prevTime + 10);
+      }, 10);
     return () => clearInterval(interval);
-  });
+  }, [clock]);
 
   if (location.pathname === '/level-one')
     return (
@@ -67,8 +67,12 @@ const Timer = () => {
         animate="visible"
         exit="exit"
       >
-        <span>{('0' + Math.floor((time / 60000) % 60)).slice(-2)}:</span>
-        <span>{('0' + Math.floor((time / 1000) % 60)).slice(-2)}</span>
+        <span>
+          {('0' + Math.floor((clock.timeLapsed / 60000) % 60)).slice(-2)}:
+        </span>
+        <span>
+          {('0' + Math.floor((clock.timeLapsed / 1000) % 60)).slice(-2)}
+        </span>
       </LevelTimer>
     );
 };

@@ -5,6 +5,7 @@ import CursorContextProvider from './components/Cursor/CursorContextProvider';
 import Cursor from './components/Cursor/cursor';
 import AnimatedRoutes from './components/AnimatedRoutes/AnimatedRoutes';
 import Timer from './components/Timer/Timer';
+import { useState } from 'react';
 
 const AppBackground = styled.div`
   height: 100vh;
@@ -33,18 +34,29 @@ const BackGroundTitle = styled.h1`
     rgba(242, 10, 66, 1) 63%,
     rgba(194, 20, 39, 1) 100%
   );
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
 
 const App = () => {
+  const [time, setTime] = useState(0);
+  const [running, setRunning] = useState(true);
+
+  const clock = {
+    timeLapsed: time,
+    isRunning: running,
+    setTimeLapsed: setTime,
+    setRunning: setRunning,
+  };
+
   return (
     <CursorContextProvider>
       <Cursor />
       <AppBackground>
         <Router>
-          <Timer />
-          <AnimatedRoutes />
+          <Timer clock={clock} />
+          <AnimatedRoutes clock={clock} />
         </Router>
 
         <BackGroundTitle>

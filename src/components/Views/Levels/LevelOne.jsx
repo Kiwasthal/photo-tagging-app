@@ -6,6 +6,7 @@ import { CursorContext } from '../../Cursor/CursorContextProvider';
 import { useCallback, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import GameEndModal from '../../StyledComponents/GameEndModal';
 
 const swirl = {
   hidden: {
@@ -53,10 +54,10 @@ const WaldoBox = styled(motion.div)`
   opacity: ${props => props.attrs.opacity};
 `;
 
-const LevelOne = () => {
+const LevelOne = ({ clock }) => {
   const [imagehovered, isImageHovered] = useHover(false);
   const [, setCursor, , setMistake] = useContext(CursorContext);
-
+  const [gameOver, setGameOver] = useState(false);
   const [waldoDisplay, setWaldoDisplay] = useState({
     opacity: 0,
     transform: '',
@@ -68,6 +69,12 @@ const LevelOne = () => {
       opacity: 1,
       transform: 'scale(1)',
     });
+    gameEnd();
+  };
+
+  const gameEnd = () => {
+    clock.setRunning(false);
+    setGameOver(true);
   };
 
   const toggleCursor = useCallback(() => {
@@ -91,13 +98,14 @@ const LevelOne = () => {
       animate="visible"
       exit="exit"
     >
+      {gameOver ? <GameEndModal /> : null}
       <LevelImage
         ref={imagehovered}
         src={levelImage}
         {...hoverHandler}
         onClick={cursorHandleMistake}
       />
-      <WaldoBox onClick={waldoClicked} attrs={waldoDisplay} />
+      <WaldoBox onClick={waldoClicked} attrs={waldoDisplay} {...hoverHandler} />
     </LevelContainer>
   );
 };

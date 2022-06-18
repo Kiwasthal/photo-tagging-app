@@ -1,6 +1,6 @@
 import useMousePosition from '../../Hooks/useMousePosition';
 import styled from 'styled-components';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { CursorContext } from './CursorContextProvider';
 
 const FixedCursor = styled.div`
@@ -33,8 +33,10 @@ const CursorSvg = styled.svg.attrs(props => ({
 
 const Cursor = () => {
   const { clientX, clientY } = useMousePosition();
-  const [cursor, , mistake] = useContext(CursorContext);
-  console.log(mistake);
+  const [cursor, , mistake, setMistake] = useContext(CursorContext);
+  useEffect(() => {
+    setTimeout(() => setMistake(false), 3000);
+  }, [mistake, setMistake]);
   return (
     <FixedCursor>
       <CursorSvg
