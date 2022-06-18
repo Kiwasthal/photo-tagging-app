@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useContext, useCallback } from 'react';
+import { CursorContext } from '../Cursor/CursorContextProvider';
 
 const dropIn = {
   hidden: {
@@ -25,15 +27,23 @@ const dropIn = {
 
 const ModalWrapper = styled(motion.div)`
   display: grid;
-  justify-items: center;
+  justify-content: center;
 `;
 
-const NameInput = styled.input`
-  width: 50%;
-  justify-self: center;
-`;
+const NameInput = styled.input``;
 
 const Modal = () => {
+  const [, setCursor] = useContext(CursorContext);
+
+  const toggleCursor = useCallback(() => {
+    setCursor(({ active }) => ({ active: !active }));
+  });
+
+  const hoverHandler = {
+    onMouseEnter: toggleCursor,
+    onMouseLeave: toggleCursor,
+  };
+
   return (
     <ModalWrapper
       className="modal orange-gradient"
@@ -42,8 +52,13 @@ const Modal = () => {
       animate="visible"
       exit="exit"
     >
-      <NameInput placeholder="Enter your Name" />
-      <Link to={'/level-select'}>
+      <NameInput placeholder="Enter your Name" {...hoverHandler} />
+      <Link
+        to={'/level-select'}
+        style={{ cursor: 'none' }}
+        onClick={toggleCursor}
+        {...hoverHandler}
+      >
         <button>Close</button>
       </Link>
     </ModalWrapper>

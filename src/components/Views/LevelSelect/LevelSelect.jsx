@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { CursorContext } from '../../Cursor/CursorContextProvider';
+import { useCallback, useContext } from 'react';
 
 const dropIn = {
   hidden: {
@@ -30,6 +32,16 @@ const LevelSelectContainer = styled(motion.div)`
 `;
 
 const LevelSelect = () => {
+  const [, setCursor] = useContext(CursorContext);
+
+  const toggleCursor = useCallback(() => {
+    setCursor(({ active }) => ({ active: !active }));
+  });
+
+  const hoverHandler = {
+    onMouseEnter: toggleCursor,
+    onMouseLeave: toggleCursor,
+  };
   return (
     <LevelSelectContainer
       onClick={e => e.stopPropagation()}
@@ -41,7 +53,9 @@ const LevelSelect = () => {
     >
       <h1>Select level</h1>
       <Link to={'/level-one '}>
-        <button>Level 1</button>
+        <button {...hoverHandler} onClick={toggleCursor}>
+          Level 1
+        </button>
       </Link>
     </LevelSelectContainer>
   );

@@ -38,17 +38,19 @@ const BackGroundTitle = styled.h1`
 
 const App = () => {
   return (
-    <AppBackground>
+    <CursorContextProvider>
       <Cursor />
-      <Router>
-        <AnimatedRoutes />
-      </Router>
+      <AppBackground>
+        <Router>
+          <AnimatedRoutes />
+        </Router>
 
-      <BackGroundTitle>
-        WHERE IS
-        <br /> WALDO?
-      </BackGroundTitle>
-    </AppBackground>
+        <BackGroundTitle>
+          WHERE IS
+          <br /> WALDO?
+        </BackGroundTitle>
+      </AppBackground>
+    </CursorContextProvider>
   );
 };
 
