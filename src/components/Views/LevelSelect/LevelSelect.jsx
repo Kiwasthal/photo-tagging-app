@@ -40,7 +40,7 @@ const LevelSelect = () => {
       exit="exit"
     >
       <h1>Select level</h1>
-      <Link to={'/level-one'}>
+      <Link to={'/level-one '}>
         <button>Level 1</button>
       </Link>
     </LevelSelectContainer>

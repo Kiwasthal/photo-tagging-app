@@ -8,6 +8,7 @@ const FixedCursor = styled.div`
   left: 0;
   right: 0;
   z-index: 9999;
+  pointer-events: none;
 `;
 
 const CursorSvg = styled.svg.attrs(props => ({

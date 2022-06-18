@@ -1,7 +1,8 @@
 import './App.css';
 import styled from 'styled-components';
 import { BrowserRouter as Router } from 'react-router-dom';
-
+import CursorContextProvider from './components/Cursor/CursorContextProvider';
+import Cursor from './components/Cursor/cursor';
 import AnimatedRoutes from './components/AnimatedRoutes/AnimatedRoutes';
 
 const AppBackground = styled.div`
@@ -11,6 +12,7 @@ const AppBackground = styled.div`
   justify-content: center;
   z-index: 0;
   flex-wrap: wrap;
+  position: fixed;
 `;
 
 const BackGroundTitle = styled.h1`
@@ -37,9 +39,11 @@ const BackGroundTitle = styled.h1`
 const App = () => {
   return (
     <AppBackground>
+      <Cursor />
       <Router>
         <AnimatedRoutes />
       </Router>
+
       <BackGroundTitle>WHERE IS WALDO?</BackGroundTitle>
     </AppBackground>
   );

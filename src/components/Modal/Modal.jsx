@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import Backdrop from '../Backdrop/Backgrop';
+import Cursor from '../Cursor/cursor';
 import { Link } from 'react-router-dom';
 
 const dropIn = {
@@ -26,7 +26,6 @@ const dropIn = {
 const Modal = () => {
   return (
     <motion.div
-      onClick={e => e.stopPropagation()}
       className="modal orange-gradient"
       variants={dropIn}
       initial="hidden"
