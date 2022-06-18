@@ -36,12 +36,31 @@ const LevelImage = styled.div`
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: none;
 `;
 
-const cursor = styled.div``;
+const SearchCursor = styled.div.attrs(props => ({
+  style: {
+    top: props.y,
+    left: props.x,
+  },
+}))`
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid black;
+  border-radius: 50%;
+  position: absolute;
+`;
 
 const LevelOne = () => {
   const [imagehovered, isImageHovered] = useHover(false);
+  const [mouseX, setMouseX] = useState(null);
+  const [mouseY, setMouseY] = useState(null);
+
+  const cursor = e => {
+    setMouseX(e.clientX + 'px');
+    setMouseY(e.clientY + 'px');
+  };
 
   return (
     <LevelContainer
@@ -52,8 +71,8 @@ const LevelOne = () => {
       animate="visible"
       exit="exit"
     >
-      <LevelImage ref={imagehovered}>
-        {isImageHovered ? <div>okay</div> : null}
+      <LevelImage ref={imagehovered} onMouseMove={cursor}>
+        {isImageHovered ? <SearchCursor x={mouseX} y={mouseY} /> : null}
       </LevelImage>
     </LevelContainer>
   );
