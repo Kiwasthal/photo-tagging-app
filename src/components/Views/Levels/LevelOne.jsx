@@ -43,13 +43,16 @@ const LevelImage = styled.img`
 `;
 
 const WaldoBox = styled(motion.div)`
-  position: absolute;
+  grid-area: 1 / 2 / 2 / 3;
+  position: relative;
+  outline: 5px solid transparent;
   width: 60px;
   height: 60px;
   border: 5px solid #84cc16;
   border-radius: 50px;
-  left: 74.5%;
-  top: 2%;
+  right: -79%;
+  top: 3%;
+  z-index: 1999;
   transition: all 500ms ease-in-out;
   opacity: ${props => props.attrs.opacity};
 `;
@@ -98,6 +101,7 @@ const LevelOne = ({ clock }) => {
       animate="visible"
       exit="exit"
     >
+      <WaldoBox attrs={waldoDisplay} {...hoverHandler} />
       {gameOver ? <GameEndModal /> : null}
       <LevelImage
         ref={imagehovered}
@@ -105,7 +109,6 @@ const LevelOne = ({ clock }) => {
         {...hoverHandler}
         onClick={cursorHandleMistake}
       />
-      <WaldoBox onClick={waldoClicked} attrs={waldoDisplay} {...hoverHandler} />
     </LevelContainer>
   );
 };

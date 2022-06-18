@@ -43,6 +43,12 @@ const LevelTimer = styled(motion.div)`
   align-items: center;
 `;
 
+const TimerText = styled.span`
+  color: #fff;
+  font-size: 24px;
+  font-weight: 900;
+`;
+
 const Timer = ({ clock }) => {
   const location = useLocation();
 
@@ -67,12 +73,12 @@ const Timer = ({ clock }) => {
         animate="visible"
         exit="exit"
       >
-        <span>
+        <TimerText>
           {('0' + Math.floor((clock.timeLapsed / 60000) % 60)).slice(-2)}:
-        </span>
-        <span>
+        </TimerText>
+        <TimerText>
           {('0' + Math.floor((clock.timeLapsed / 1000) % 60)).slice(-2)}
-        </span>
+        </TimerText>
       </LevelTimer>
     );
 };

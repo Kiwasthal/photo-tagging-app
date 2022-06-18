@@ -40,15 +40,11 @@ button {
 .modal {
   width: clamp(50%, 700px, 90%);
   height: min(50%, 300px);
-  background-color: #00b7ff;
+
   margin: auto;
   padding: 0 2rem;
   border-radius: 12px;
   z-index: 1001;
-}
-
-.orange-gradient {
-  background: var(--gradient);
 }
 
 .modal-button {

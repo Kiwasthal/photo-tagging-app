@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion';
-import styled from 'styled-components';
+import { StyledModal } from './Modal';
 import Backdrop from './Backdrop';
 
 const dropIn = {
@@ -22,25 +21,17 @@ const dropIn = {
     opacity: 0,
   },
 };
-
-const Modal = styled(motion.div)`
-  width: clamp(50%, 700px, 90%);
-  height: min(50%, 300px);
-
-  margin: auto;
-  padding: 0 2rem;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
 const GameEndModal = () => {
   return (
     <Backdrop>
-      <Modal variants={dropIn} initial="hidden" animate="visible" exit="exit">
+      <StyledModal
+        variants={dropIn}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+      >
         <button>SUBMIT SCORE</button>
-      </Modal>
+      </StyledModal>
     </Backdrop>
   );
 };
