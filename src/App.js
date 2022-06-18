@@ -16,14 +16,14 @@ const AppBackground = styled.div`
 `;
 
 const BackGroundTitle = styled.h1`
-  top: 0%;
-  left: 0%;
+  top: 5%;
+  left: -50%;
   right: -50%;
-  word-wrap: break-word;
 
   position: absolute;
-  transform: rotate(330deg);
-  font-size: 11rem;
+  transform: rotate(335deg);
+  text-align: center;
+  font-size: 16rem;
 
   background: rgb(255, 255, 255);
   background: linear-gradient(
@@ -44,7 +44,10 @@ const App = () => {
         <AnimatedRoutes />
       </Router>
 
-      <BackGroundTitle>WHERE IS WALDO?</BackGroundTitle>
+      <BackGroundTitle>
+        WHERE IS
+        <br /> WALDO?
+      </BackGroundTitle>
     </AppBackground>
   );
 };

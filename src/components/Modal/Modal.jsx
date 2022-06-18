@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import Cursor from '../Cursor/cursor';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const dropIn = {
@@ -23,19 +23,30 @@ const dropIn = {
   },
 };
 
+const ModalWrapper = styled(motion.div)`
+  display: grid;
+  justify-items: center;
+`;
+
+const NameInput = styled.input`
+  width: 50%;
+  justify-self: center;
+`;
+
 const Modal = () => {
   return (
-    <motion.div
+    <ModalWrapper
       className="modal orange-gradient"
       variants={dropIn}
       initial="hidden"
       animate="visible"
       exit="exit"
     >
+      <NameInput placeholder="Enter your Name" />
       <Link to={'/level-select'}>
         <button>Close</button>
       </Link>
-    </motion.div>
+    </ModalWrapper>
   );
 };
 

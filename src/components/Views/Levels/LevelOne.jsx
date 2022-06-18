@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 import { LevelContainer } from '../../StyledComponents/LevelContainer';
 import levelImage from '../../../Assets/levelOne.jpg';
-
 import useHover from '../../../Hooks/useHover';
-import Cursor from '../../Cursor/cursor';
 
 const swirl = {
   hidden: {
