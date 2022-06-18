@@ -4,6 +4,8 @@ import levelImage from '../../../Assets/levelOne.jpg';
 import useHover from '../../../Hooks/useHover';
 import { CursorContext } from '../../Cursor/CursorContextProvider';
 import { useCallback, useContext } from 'react';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 const swirl = {
   hidden: {
@@ -29,20 +31,42 @@ const swirl = {
   },
 };
 
-const LevelImage = styled.div`
+const LevelImage = styled.img`
+  position: relative;
   grid-area: 1 / 2 / 2 / 3;
   height: 100%;
   width: 100%;
-  background-image: url(${levelImage});
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  cursor: none;
+`;
+
+const WaldoBox = styled(motion.div)`
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 5px solid #84cc16;
+  border-radius: 50px;
+  left: 74.5%;
+  top: 2%;
+  transition: all 500ms ease-in-out;
+  opacity: 1;
 `;
 
 const LevelOne = () => {
   const [imagehovered, isImageHovered] = useHover(false);
   const [, setCursor] = useContext(CursorContext);
+  const [waldoDisplay, setWaldoDisplay] = useState({
+    opacity: 0,
+    transform: '',
+  });
+
+  const waldoClicked = () => {
+    setWaldoDisplay({
+      opacity: 1,
+      transform: 'scale(1)',
+    });
+  };
 
   const toggleCursor = useCallback(() => {
     setCursor(({ active }) => ({ active: !active }));
@@ -61,7 +85,13 @@ const LevelOne = () => {
       animate="visible"
       exit="exit"
     >
-      <LevelImage ref={imagehovered} {...hoverHandler} />
+      <LevelImage
+        ref={imagehovered}
+        src={levelImage}
+        {...hoverHandler}
+        onClick={e => console.log(e)}
+      />
+      <WaldoBox />
     </LevelContainer>
   );
 };

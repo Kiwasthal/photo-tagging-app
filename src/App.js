@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import CursorContextProvider from './components/Cursor/CursorContextProvider';
 import Cursor from './components/Cursor/cursor';
 import AnimatedRoutes from './components/AnimatedRoutes/AnimatedRoutes';
+import Timer from './components/Timer/Timer';
 
 const AppBackground = styled.div`
   height: 100vh;
@@ -42,6 +43,7 @@ const App = () => {
       <Cursor />
       <AppBackground>
         <Router>
+          <Timer />
           <AnimatedRoutes />
         </Router>
 
