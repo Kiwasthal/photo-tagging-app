@@ -6,6 +6,7 @@ import Cursor from './components/Cursor/cursor';
 import AnimatedRoutes from './components/AnimatedRoutes/AnimatedRoutes';
 import Timer from './components/Timer/Timer';
 import { useState } from 'react';
+import useInput from './Hooks/useInput';
 
 const AppBackground = styled.div`
   height: 100vh;
@@ -42,6 +43,7 @@ const BackGroundTitle = styled.h1`
 const App = () => {
   const [time, setTime] = useState(0);
   const [running, setRunning] = useState(true);
+  const user = useInput('');
 
   const clock = {
     timeLapsed: time,
@@ -56,7 +58,7 @@ const App = () => {
       <AppBackground>
         <Router>
           <Timer clock={clock} />
-          <AnimatedRoutes clock={clock} />
+          <AnimatedRoutes clock={clock} userInfo={user} />
         </Router>
 
         <BackGroundTitle>

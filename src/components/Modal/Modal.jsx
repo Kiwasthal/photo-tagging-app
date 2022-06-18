@@ -60,7 +60,7 @@ const StartButton = styled.button`
   }
 `;
 
-const Modal = () => {
+const Modal = ({ userInfo }) => {
   const [, setCursor] = useContext(CursorContext);
 
   const toggleCursor = useCallback(() => {
@@ -80,7 +80,11 @@ const Modal = () => {
       animate="visible"
       exit="exit"
     >
-      <NameInput placeholder="Enter your Name" {...hoverHandler} />
+      <NameInput
+        placeholder="Enter your Name"
+        {...hoverHandler}
+        {...userInfo}
+      />
       <Link
         to={'/level-select'}
         style={{ cursor: 'none' }}

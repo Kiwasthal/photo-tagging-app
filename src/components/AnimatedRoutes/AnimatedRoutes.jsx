@@ -4,14 +4,18 @@ import { AnimatePresence } from 'framer-motion';
 import LevelSelect from '../Views/LevelSelect/LevelSelect';
 import LevelOne from '../Views/Levels/LevelOne';
 
-const AnimatedRoutes = ({ clock }) => {
+const AnimatedRoutes = ({ clock, userInfo }) => {
   const location = useLocation();
   return (
     <AnimatePresence exitBeforeEnter>
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home userInfo={userInfo} />} />
         <Route path="/level-select" element={<LevelSelect />} />
-        <Route path="/level-one" element={<LevelOne clock={clock} />} />
+        <Route
+          path="/level-one"
+          element={<LevelOne clock={clock} />}
+          userInfo={userInfo}
+        />
       </Routes>
     </AnimatePresence>
   );
