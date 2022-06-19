@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const StyledModal = styled(motion.div)`
   width: clamp(50%, 700px, 90%);
   height: min(50%, 300px);
-
+  background-color: #fff;
   margin: auto;
   padding: 0 2rem;
   border-radius: 12px;

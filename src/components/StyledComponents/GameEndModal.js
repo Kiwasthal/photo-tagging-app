@@ -21,7 +21,10 @@ const dropIn = {
     opacity: 0,
   },
 };
-const GameEndModal = () => {
+const GameEndModal = ({ name, time }) => {
+  const TrueTime =
+    ('0' + Math.floor((time / 60000) % 60)).slice(-2) +
+    ('0' + Math.floor((time / 1000) % 60)).slice(-2);
   return (
     <Backdrop>
       <StyledModal
@@ -30,6 +33,11 @@ const GameEndModal = () => {
         animate="visible"
         exit="exit"
       >
+        {' '}
+        <p>
+          TIME : {('0' + Math.floor((time / 60000) % 60)).slice(-2)} :
+          {('0' + Math.floor((time / 1000) % 60)).slice(-2)}
+        </p>
         <button>SUBMIT SCORE</button>
       </StyledModal>
     </Backdrop>

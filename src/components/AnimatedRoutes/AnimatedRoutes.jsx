@@ -13,8 +13,7 @@ const AnimatedRoutes = ({ clock, userInfo }) => {
         <Route path="/level-select" element={<LevelSelect />} />
         <Route
           path="/level-one"
-          element={<LevelOne clock={clock} />}
-          userInfo={userInfo}
+          element={<LevelOne clock={clock} userName={userInfo.value} />}
         />
       </Routes>
     </AnimatePresence>

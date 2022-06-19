@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { LevelContainer } from '../../StyledComponents/LevelContainer';
 import levelImage from '../../../Assets/levelOne.jpg';
-import useHover from '../../../Hooks/useHover';
 import { CursorContext } from '../../Cursor/CursorContextProvider';
 import { useCallback, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import GameEndModal from '../../StyledComponents/GameEndModal';
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const swirl = {
   hidden: {
@@ -68,8 +68,8 @@ const OdLawBox = styled(SearchBox)`
   opacity: ${props => props.attrs.opacity};
 `;
 
-const LevelOne = ({ clock }) => {
-  const [imagehovered, isImageHovered] = useHover(false);
+const LevelOne = ({ clock, userName }) => {
+  const location = useLocation();
   const [, setCursor, , setMistake] = useContext(CursorContext);
   const [gameOver, setGameOver] = useState(false);
   const [waldoDisplay, setWaldoDisplay] = useState({
@@ -97,11 +97,6 @@ const LevelOne = ({ clock }) => {
     });
   };
 
-  const gameEnd = () => {
-    clock.setRunning(false);
-    setGameOver(true);
-  };
-
   const toggleCursor = useCallback(() => {
     setCursor(({ active }) => ({ active: !active }));
   });
@@ -116,8 +111,16 @@ const LevelOne = ({ clock }) => {
   };
 
   useEffect(() => {
+    const gameEnd = () => {
+      clock.setRunning(false);
+      setGameOver(true);
+    };
     if (waldoDisplay.opacity === 1 && odLawDisplay.opacity === 1) gameEnd();
   }, [waldoDisplay, odLawDisplay]);
+
+  useEffect(() => {
+    clock.setRunning(true);
+  }, [location]);
 
   return (
     <LevelContainer
@@ -129,13 +132,15 @@ const LevelOne = ({ clock }) => {
     >
       <WaldoBox attrs={waldoDisplay} {...hoverHandler} onClick={waldoClicked} />
       <OdLawBox {...hoverHandler} attrs={odLawDisplay} onClick={odlawClicked} />
-      {gameOver ? <GameEndModal /> : null}
+
       <LevelImage
-        ref={imagehovered}
         src={levelImage}
         {...hoverHandler}
         onClick={cursorHandleMistake}
       />
+      {gameOver ? (
+        <GameEndModal name={userName} time={clock.timeLapsed} />
+      ) : null}
     </LevelContainer>
   );
 };
