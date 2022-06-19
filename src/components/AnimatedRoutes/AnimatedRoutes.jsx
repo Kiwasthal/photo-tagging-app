@@ -3,8 +3,9 @@ import Home from '../Views/Home/Home';
 import { AnimatePresence } from 'framer-motion';
 import LevelSelect from '../Views/LevelSelect/LevelSelect';
 import LevelOne from '../Views/Levels/LevelOne';
+import Leaderboard from '../Views/Leaderboard/Leaderboard';
 
-const AnimatedRoutes = ({ clock, userInfo }) => {
+const AnimatedRoutes = ({ clock, userInfo, topUsers }) => {
   const location = useLocation();
   return (
     <AnimatePresence exitBeforeEnter>
@@ -14,6 +15,10 @@ const AnimatedRoutes = ({ clock, userInfo }) => {
         <Route
           path="/level-one"
           element={<LevelOne clock={clock} userName={userInfo.value} />}
+        />
+        <Route
+          path="/leaderboard"
+          element={<Leaderboard topUsers={topUsers} />}
         />
       </Routes>
     </AnimatePresence>

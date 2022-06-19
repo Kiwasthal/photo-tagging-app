@@ -1,4 +1,5 @@
 import { StyledModal } from './Modal';
+import { Link } from 'react-router-dom';
 import Backdrop from './Backdrop';
 
 const dropIn = {
@@ -22,7 +23,7 @@ const dropIn = {
   },
 };
 const GameEndModal = ({ name, time }) => {
-  const TrueTime =
+  const trueTime =
     ('0' + Math.floor((time / 60000) % 60)).slice(-2) +
     ('0' + Math.floor((time / 1000) % 60)).slice(-2);
   return (
@@ -38,7 +39,11 @@ const GameEndModal = ({ name, time }) => {
           TIME : {('0' + Math.floor((time / 60000) % 60)).slice(-2)} :
           {('0' + Math.floor((time / 1000) % 60)).slice(-2)}
         </p>
-        <button>SUBMIT SCORE</button>
+        <Link to={'/leaderboard'}>
+          <button onClick={() => console.log(Number(trueTime), time)}>
+            SUBMIT SCORE
+          </button>
+        </Link>
       </StyledModal>
     </Backdrop>
   );

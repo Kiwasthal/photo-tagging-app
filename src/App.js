@@ -5,8 +5,10 @@ import CursorContextProvider from './components/Cursor/CursorContextProvider';
 import Cursor from './components/Cursor/cursor';
 import AnimatedRoutes from './components/AnimatedRoutes/AnimatedRoutes';
 import Timer from './components/Timer/Timer';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useInput from './Hooks/useInput';
+import { db } from './Firebase/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 const AppBackground = styled.div`
   height: 100vh;
@@ -41,9 +43,19 @@ const BackGroundTitle = styled.h1`
 `;
 
 const App = () => {
+  const [userTopTimes, setUserTopTimes] = useState([]);
   const [time, setTime] = useState(0);
   const [running, setRunning] = useState(true);
   const user = useInput('');
+
+  useEffect(() => {
+    const timesCollectionRef = collection(db, 'level-one');
+    const getTimes = async () => {
+      const data = await getDocs(timesCollectionRef);
+      setUserTopTimes(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+    };
+    getTimes();
+  }, []);
 
   const clock = {
     timeLapsed: time,
@@ -58,7 +70,11 @@ const App = () => {
       <AppBackground>
         <Router>
           <Timer clock={clock} />
-          <AnimatedRoutes clock={clock} userInfo={user} />
+          <AnimatedRoutes
+            clock={clock}
+            userInfo={user}
+            topUsers={userTopTimes}
+          />
         </Router>
 
         <BackGroundTitle>

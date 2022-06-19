@@ -85,12 +85,7 @@ const Modal = ({ userInfo }) => {
         {...hoverHandler}
         {...userInfo}
       />
-      <Link
-        to={'/level-select'}
-        style={{ cursor: 'none' }}
-        onClick={toggleCursor}
-        {...hoverHandler}
-      >
+      <Link to={'/level-select'} onClick={toggleCursor} {...hoverHandler}>
         <StartButton>START</StartButton>
       </Link>
     </ModalWrapper>

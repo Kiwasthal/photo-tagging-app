@@ -22,7 +22,7 @@ const CursorSvg = styled.svg.attrs(props => ({
       props.mistake.mistake ? 2 : props.cursor.active ? 2.5 : 1
     })`,
     stroke: `${
-      props.mistake.mistake ? 'red' : props.cursor.active ? 'black' : 'red'
+      props.mistake.mistake ? 'red' : props.cursor.active ? 'black' : 'black'
     }`,
     fill: `${props.cursor.active} ` ? 'rgba(255, 255, 255, .5' : 'black',
   },
@@ -56,7 +56,7 @@ const Cursor = () => {
           x2="40"
           y2="40"
           stroke="black"
-          stroke-width="3"
+          strokeWidth="3"
           opacity="1"
           x="55px"
         ></line>
