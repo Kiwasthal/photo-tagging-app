@@ -15,6 +15,7 @@ const FixedCursor = styled.div`
 
 const CursorSvg = styled.svg.attrs(props => ({
   style: {
+    strokeWidth: `${props.mistake.mistake ? 2 : 1}`,
     left: props.x,
     top: props.y,
     transform: `translate(-50%, -50%) scale(${
@@ -27,7 +28,7 @@ const CursorSvg = styled.svg.attrs(props => ({
   },
 }))`
   position: absolute;
-  stroke-width: 1;
+
   transition: transform 0.2s ease-in-out;
 `;
 
@@ -35,7 +36,7 @@ const Cursor = () => {
   const { clientX, clientY } = useMousePosition();
   const [cursor, , mistake, setMistake] = useContext(CursorContext);
   useEffect(() => {
-    setTimeout(() => setMistake(false), 3000);
+    if (mistake) setTimeout(() => setMistake(false), 6000);
   }, [mistake, setMistake]);
   return (
     <FixedCursor>
@@ -49,6 +50,16 @@ const Cursor = () => {
         y={clientY}
       >
         <circle cx="25" cy="25" r="8" />
+        <line
+          x1="31"
+          y1="31"
+          x2="40"
+          y2="40"
+          stroke="black"
+          stroke-width="3"
+          opacity="1"
+          x="55px"
+        ></line>
       </CursorSvg>
     </FixedCursor>
   );

@@ -103,7 +103,7 @@ const OdLawBox = styled(SearchBox)`
 
 const LevelOne = ({ clock, userName }) => {
   const location = useLocation();
-  const [, setCursor, , setMistake] = useContext(CursorContext);
+  const [, setCursor, mistake, setMistake] = useContext(CursorContext);
   const [gameOver, setGameOver] = useState(false);
   const [waldoDisplay, setWaldoDisplay] = useState({
     opacity: 0,
@@ -116,18 +116,22 @@ const LevelOne = ({ clock, userName }) => {
 
   const waldoClicked = e => {
     e.stopPropagation();
-    setWaldoDisplay({
-      opacity: 1,
-      transform: 'scale(1)',
-    });
+    if (!mistake) {
+      setWaldoDisplay({
+        opacity: 1,
+        transform: 'scale(1)',
+      });
+    }
   };
 
   const odlawClicked = e => {
     e.stopPropagation();
-    setOdLawDisplay({
-      opacity: 1,
-      transform: 'scale(1)',
-    });
+    if (!mistake) {
+      setOdLawDisplay({
+        opacity: 1,
+        transform: 'scale(1)',
+      });
+    }
   };
 
   const toggleCursor = useCallback(() => {
