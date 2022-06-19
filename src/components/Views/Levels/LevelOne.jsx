@@ -8,6 +8,8 @@ import { useState } from 'react';
 import GameEndModal from '../../StyledComponents/GameEndModal';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import waldoImage from '../../../Assets/waldoBG.png';
+import odlawImage from '../../../Assets/odlawBg.jpg';
 
 const swirl = {
   hidden: {
@@ -41,6 +43,37 @@ const LevelImage = styled.img`
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+`;
+
+const StyledRightPartition = styled.div`
+  grid-area: 1/ 3 / 2 / 4;
+  background: url(${odlawImage});
+  background-repeat: no-repeat;
+  background-position: 80% 100%;
+  background-size: 100px;
+  position: relative;
+`;
+
+const Badge = styled.div`
+  position: relative;
+  height: 20px;
+  width: 20px;
+  border-radius: 50px;
+  border: 2px solid black;
+  background-color: ${props => props.color};
+  filter: drop-shadow(0px 3px 3px ${props => props.color});
+  top: 85%;
+  left: 30%;
+  transition: all 200ms ease-out;
+`;
+
+const StyledLeftPartition = styled.div`
+  position: relative;
+  grid-area: 1/ 1 / 2 / 2;
+  background: url(${waldoImage});
+  background-repeat: no-repeat;
+  background-position: 80% 100%;
+  background-size: 100px;
 `;
 
 const SearchBox = styled(motion.div)`
@@ -130,9 +163,22 @@ const LevelOne = ({ clock, userName }) => {
       animate="visible"
       exit="exit"
     >
+      <StyledLeftPartition>
+        {waldoDisplay.opacity === 1 ? (
+          <Badge color="#84cc16" />
+        ) : (
+          <Badge color="#dc2626" />
+        )}
+      </StyledLeftPartition>
+      <StyledRightPartition>
+        {odLawDisplay.opacity === 1 ? (
+          <Badge color="#84cc16" />
+        ) : (
+          <Badge color="#dc2626" />
+        )}
+      </StyledRightPartition>
       <WaldoBox attrs={waldoDisplay} {...hoverHandler} onClick={waldoClicked} />
       <OdLawBox {...hoverHandler} attrs={odLawDisplay} onClick={odlawClicked} />
-
       <LevelImage
         src={levelImage}
         {...hoverHandler}

@@ -7,4 +7,5 @@ export const LevelContainer = styled(motion.div)`
   background-color: white;
   display: grid;
   grid-template-columns: 5% 1fr 5%;
+  padding: 10px;
 `;
