@@ -62,7 +62,9 @@ const App = () => {
 
   const createUserSegment = async () => {
     setFetching(true);
-    await addDoc(timesCollectionRef, { name: user.value, time: time });
+    if (user.value === '')
+      await addDoc(timesCollectionRef, { name: 'Anonymous', time: time });
+    else await addDoc(timesCollectionRef, { name: user.value, time: time });
     setFetching(false);
   };
 

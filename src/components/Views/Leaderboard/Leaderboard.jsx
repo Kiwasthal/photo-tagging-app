@@ -46,8 +46,10 @@ const ButtonContainer = styled.div`
 
 const TopTimesDisplayer = styled.div`
   grid-area: 2 / 1 / 3 / 2;
-  grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+
   grid-template-rows: repeat(auto-fit, minmax(calc(100% / 20%), 1fr));
+  /* grid-template-columns: repeat(auto-fit, minmax(20%, 1fr)); */
+  grid-auto-flow: row;
   display: grid;
   font-size: 24px;
 `;
@@ -71,9 +73,9 @@ const Leaderboard = topUsers => {
       </ButtonContainer>
       <TopTimesDisplayer>
         {topUsers.topUsers.length > 0
-          ? topUsers.topUsers.map(user => (
-              <UserCard key={user.id} user={user} />
-            ))
+          ? topUsers.topUsers
+              .sort((a, b) => Number(a.time) - Number(b.time))
+              .map(user => <UserCard key={user.id} user={user} />)
           : null}
       </TopTimesDisplayer>
     </StyledLBdModal>
