@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { CursorContext } from '../../Cursor/CursorContextProvider';
-import { useCallback, useContext } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
+import useCursorHandlers from '../../../Hooks/useCursorHandlers';
 
 const dropIn = {
   hidden: {
@@ -31,17 +32,23 @@ const LevelSelectContainer = styled(motion.div)`
   background-color: white;
 `;
 
+const NavContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const LevelsContainer = styled.div`
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
 const LevelSelect = () => {
-  const [, setCursor] = useContext(CursorContext);
+  const cursorHandlers = useCursorHandlers();
 
-  const toggleCursor = useCallback(() => {
-    setCursor(({ active }) => ({ active: !active }));
-  });
-
-  const hoverHandler = {
-    onMouseEnter: toggleCursor,
-    onMouseLeave: toggleCursor,
-  };
   return (
     <LevelSelectContainer
       onClick={e => e.stopPropagation()}
@@ -51,12 +58,26 @@ const LevelSelect = () => {
       animate="visible"
       exit="exit"
     >
-      <h1>Select level</h1>
-      <Link to={'/level-one '}>
-        <button {...hoverHandler} onClick={toggleCursor}>
-          Level 1
-        </button>
-      </Link>
+      <NavContainer>
+        <h1>Select level</h1>
+        <Link to={'/leaderboard'}>
+          <button {...cursorHandlers}>Leaderboard</button>
+        </Link>
+      </NavContainer>
+      <LevelsContainer>
+        <Link to={'/level-one '}>
+          <button {...cursorHandlers}>Level 1</button>
+        </Link>
+        <Link to={'/level-one '}>
+          <button {...cursorHandlers}>Level 2</button>
+        </Link>
+        <Link to={'/level-one '}>
+          <button {...cursorHandlers}>Level 3</button>
+        </Link>
+        <Link to={'/level-one '}>
+          <button {...cursorHandlers}>Level 4</button>
+        </Link>
+      </LevelsContainer>
     </LevelSelectContainer>
   );
 };

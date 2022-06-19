@@ -5,9 +5,11 @@ import { CursorContext } from '../../Cursor/CursorContextProvider';
 import { useCallback, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import GameEndModal from '../../StyledComponents/GameEndModal';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import useCursorHandlers from '../../../Hooks/useCursorHandlers';
+import GameEndModal from '../../StyledComponents/GameEndModal';
+
 import waldoImage from '../../../Assets/waldoBG.png';
 import odlawImage from '../../../Assets/odlawBg.jpg';
 
@@ -86,7 +88,7 @@ const SearchBox = styled(motion.div)`
   border-radius: 50px;
 
   z-index: 1999;
-  transition: all 500ms ease-in-out;
+  transition: all 200ms ease-in-out;
 `;
 
 const WaldoBox = styled(SearchBox)`
@@ -104,6 +106,7 @@ const OdLawBox = styled(SearchBox)`
 const LevelOne = ({ clock, userName, addSegment }) => {
   const location = useLocation();
   const [, setCursor, mistake, setMistake] = useContext(CursorContext);
+  const cursorHandlers = useCursorHandlers();
   const [gameOver, setGameOver] = useState(false);
   const [waldoDisplay, setWaldoDisplay] = useState({
     opacity: 0,
@@ -134,18 +137,9 @@ const LevelOne = ({ clock, userName, addSegment }) => {
     }
   };
 
-  const toggleCursor = useCallback(() => {
-    setCursor(({ active }) => ({ active: !active }));
-  });
-
   const cursorHandleMistake = useCallback(() => {
     setMistake(() => ({ mistake: true }));
   });
-
-  const hoverHandler = {
-    onMouseEnter: toggleCursor,
-    onMouseLeave: toggleCursor,
-  };
 
   useEffect(() => {
     const gameEnd = () => {
@@ -181,11 +175,19 @@ const LevelOne = ({ clock, userName, addSegment }) => {
           <Badge color="#dc2626" />
         )}
       </StyledRightPartition>
-      <WaldoBox attrs={waldoDisplay} {...hoverHandler} onClick={waldoClicked} />
-      <OdLawBox {...hoverHandler} attrs={odLawDisplay} onClick={odlawClicked} />
+      <WaldoBox
+        attrs={waldoDisplay}
+        {...cursorHandlers}
+        onClick={waldoClicked}
+      />
+      <OdLawBox
+        {...cursorHandlers}
+        attrs={odLawDisplay}
+        onClick={odlawClicked}
+      />
       <LevelImage
         src={levelImage}
-        {...hoverHandler}
+        {...cursorHandlers}
         onClick={cursorHandleMistake}
       />
       {gameOver ? (

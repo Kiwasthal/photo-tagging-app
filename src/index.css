@@ -35,6 +35,14 @@ button {
   letter-spacing: 1.25px;
   cursor: default;
   font-family: 'Montserrat', sans-serif;
+  transition: all 200ms ease-in;
+  transform: scale(1);
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+button:hover {
+  transform: scale(1.1);
 }
 
 .modal {

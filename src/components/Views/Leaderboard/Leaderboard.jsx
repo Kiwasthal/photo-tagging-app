@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import UserCard from '../../StyledComponents/userCard';
+import { Link } from 'react-router-dom';
+import BGimg from '../../../Assets/LeaderBG.png';
+import useCursorHandlers from '../../../Hooks/useCursorHandlers';
 
 const dropIn = {
   hidden: {
@@ -26,7 +29,7 @@ const dropIn = {
 const StyledLBdModal = styled(motion.div)`
   background-position: 5% 100%;
   background-repeat: no-repeat;
-  background-color: #fff;
+  background-color: #ffffff;
   width: clamp(50%, 500px, 90%);
   height: 90%;
   width: 80%;
@@ -41,20 +44,27 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  padding: 1 5px;
+  padding-top: 2vh;
 `;
 
 const TopTimesDisplayer = styled.div`
+  height: 100%;
+  width: 100%;
   grid-area: 2 / 1 / 3 / 2;
-
-  grid-template-rows: repeat(auto-fit, minmax(calc(100% / 20%), 1fr));
-  /* grid-template-columns: repeat(auto-fit, minmax(20%, 1fr)); */
-  grid-auto-flow: row;
+  padding: 2vh;
   display: grid;
+  grid-auto-flow: row;
+  grid-template-rows: repeat(auto-fill, 5%);
+  grid-template-columns: max-content;
+  background: url(${BGimg});
+  background-repeat: no-repeat;
+  background-position: 100% 87%;
+
   font-size: 24px;
 `;
 
-const Leaderboard = topUsers => {
+const Leaderboard = ({ topUsers }) => {
+  const cursorHandlers = useCursorHandlers();
   return (
     <StyledLBdModal
       className="modal"
@@ -64,18 +74,25 @@ const Leaderboard = topUsers => {
       exit="exit"
     >
       <ButtonContainer>
-        <button>Level Select</button>
-        <button>Level One</button>
-        <button>Level Two</button>
-        <button>Level Three</button>
-        <button>Level Four</button>
-        <button>Home</button>
+        <Link to={'/level-select'}>
+          <button {...cursorHandlers}>Level Select</button>
+        </Link>
+        <button {...cursorHandlers}>Level One</button>
+        <button {...cursorHandlers}>Level Two</button>
+        <button {...cursorHandlers}>Level Three</button>
+        <button {...cursorHandlers}>Level Four</button>
+
+        <Link to={'/'}>
+          <button {...cursorHandlers}>Home</button>
+        </Link>
       </ButtonContainer>
       <TopTimesDisplayer>
-        {topUsers.topUsers.length > 0
-          ? topUsers.topUsers
+        {topUsers.length > 0
+          ? topUsers
               .sort((a, b) => Number(a.time) - Number(b.time))
-              .map(user => <UserCard key={user.id} user={user} />)
+              .map((user, index) => (
+                <UserCard key={user.id} user={user} index={index} />
+              ))
           : null}
       </TopTimesDisplayer>
     </StyledLBdModal>

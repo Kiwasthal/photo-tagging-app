@@ -62,6 +62,8 @@ const Timer = ({ clock }) => {
       interval = setInterval(() => {
         clock.setTimeLapsed(prevTime => prevTime + 10);
       }, 10);
+    else if (!clock.isRunning) clearInterval(interval);
+
     return () => clearInterval(interval);
   }, [clock]);
 

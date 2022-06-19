@@ -1,7 +1,8 @@
 import useMousePosition from '../../Hooks/useMousePosition';
 import styled from 'styled-components';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { CursorContext } from './CursorContextProvider';
+import { useLocation } from 'react-router-dom';
 
 const FixedCursor = styled.div`
   position: fixed;
@@ -15,6 +16,7 @@ const FixedCursor = styled.div`
 
 const CursorSvg = styled.svg.attrs(props => ({
   style: {
+    opacity: `${props.opacity && props.x > 1 ? 1 : 0}`,
     strokeWidth: `${props.mistake.mistake ? 2 : 1}`,
     left: props.x,
     top: props.y,
@@ -35,12 +37,26 @@ const CursorSvg = styled.svg.attrs(props => ({
 const Cursor = () => {
   const { clientX, clientY } = useMousePosition();
   const [cursor, , mistake, setMistake] = useContext(CursorContext);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleMouseEnter = () => setIsVisible(true);
+    const handleMouseLeave = () => setIsVisible(false);
+    document.body.addEventListener('mouseenter', handleMouseEnter);
+    document.body.addEventListener('mouseleave', handleMouseLeave);
+    return () => {
+      document.body.removeEventListener('mouseenter', handleMouseEnter);
+      document.body.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
+
   useEffect(() => {
     if (mistake) setTimeout(() => setMistake(false), 6000);
   }, [mistake, setMistake]);
   return (
     <FixedCursor>
       <CursorSvg
+        opacity={isVisible}
         cursor={cursor}
         mistake={mistake}
         width={50}
