@@ -2,8 +2,7 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import modalPic from '../../Assets/waldoBG.png';
 import { Link } from 'react-router-dom';
-import { useContext, useCallback } from 'react';
-import { CursorContext } from '../Cursor/CursorContextProvider';
+import useCursorHandlers from '../../Hooks/useCursorHandlers';
 
 const dropIn = {
   hidden: {
@@ -61,17 +60,7 @@ const StartButton = styled.button`
 `;
 
 const Modal = ({ userInfo }) => {
-  const [, setCursor] = useContext(CursorContext);
-
-  const toggleCursor = useCallback(() => {
-    setCursor(({ active }) => ({ active: !active }));
-  });
-
-  const hoverHandler = {
-    onMouseEnter: toggleCursor,
-    onMouseLeave: toggleCursor,
-  };
-
+  const cursorHandlers = useCursorHandlers();
   return (
     <ModalWrapper
       className="modal orange-gradient"
@@ -82,11 +71,11 @@ const Modal = ({ userInfo }) => {
     >
       <NameInput
         placeholder="Enter your Name"
-        {...hoverHandler}
         {...userInfo}
+        {...cursorHandlers}
       />
-      <Link to={'/level-select'} onClick={toggleCursor} {...hoverHandler}>
-        <StartButton>START</StartButton>
+      <Link to={'/level-select'}>
+        <StartButton {...cursorHandlers}>START</StartButton>
       </Link>
     </ModalWrapper>
   );

@@ -35,8 +35,10 @@ const GameEndModal = ({ name, time, addSegment }) => {
         exit="exit"
       >
         <p>TIME : {formatTime(time)}</p>
-        <Link to={'/leaderboard'} {...cursorHandlers}>
-          <button onClick={addSegment}>SUBMIT SCORE</button>
+        <Link to={'/leaderboard'}>
+          <button onClick={addSegment} {...cursorHandlers}>
+            SUBMIT SCORE
+          </button>
         </Link>
       </StyledModal>
     </Backdrop>
