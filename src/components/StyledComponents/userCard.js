@@ -1,5 +1,18 @@
 import styled from 'styled-components';
+import { formatTime } from './GameEndModal';
 
-const userCard = user => {};
+const StyledCard = styled.div`
+  display: flex;
+`;
 
-export default userCard;
+const UserCard = user => {
+  return (
+    <StyledCard>
+      <span>
+        {user.user.name} : {formatTime(user.user.time)}
+      </span>
+    </StyledCard>
+  );
+};
+
+export default UserCard;

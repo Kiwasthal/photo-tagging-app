@@ -22,10 +22,8 @@ const dropIn = {
     opacity: 0,
   },
 };
-const GameEndModal = ({ name, time }) => {
-  const trueTime =
-    ('0' + Math.floor((time / 60000) % 60)).slice(-2) +
-    ('0' + Math.floor((time / 1000) % 60)).slice(-2);
+
+const GameEndModal = ({ name, time, addSegment }) => {
   return (
     <Backdrop>
       <StyledModal
@@ -34,19 +32,21 @@ const GameEndModal = ({ name, time }) => {
         animate="visible"
         exit="exit"
       >
-        {' '}
-        <p>
-          TIME : {('0' + Math.floor((time / 60000) % 60)).slice(-2)} :
-          {('0' + Math.floor((time / 1000) % 60)).slice(-2)}
-        </p>
+        <p>TIME : {formatTime(time)}</p>
         <Link to={'/leaderboard'}>
-          <button onClick={() => console.log(Number(trueTime), time)}>
-            SUBMIT SCORE
-          </button>
+          <button onClick={addSegment}>SUBMIT SCORE</button>
         </Link>
       </StyledModal>
     </Backdrop>
   );
+};
+
+export const formatTime = time => {
+  let mins = ('0' + Math.floor((time / 60000) % 60)).slice(-2);
+  let sec = ('0' + Math.floor((time / 1000) % 60)).slice(-2);
+  let mils = ('0' + Math.floor((time / 10) % 100)).slice(-2);
+
+  return `${mins} : ${sec} : ${mils}`;
 };
 
 export default GameEndModal;

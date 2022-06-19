@@ -101,7 +101,7 @@ const OdLawBox = styled(SearchBox)`
   opacity: ${props => props.attrs.opacity};
 `;
 
-const LevelOne = ({ clock, userName }) => {
+const LevelOne = ({ clock, userName, addSegment }) => {
   const location = useLocation();
   const [, setCursor, mistake, setMistake] = useContext(CursorContext);
   const [gameOver, setGameOver] = useState(false);
@@ -189,7 +189,11 @@ const LevelOne = ({ clock, userName }) => {
         onClick={cursorHandleMistake}
       />
       {gameOver ? (
-        <GameEndModal name={userName} time={clock.timeLapsed} />
+        <GameEndModal
+          name={userName}
+          time={clock.timeLapsed}
+          addSegment={addSegment}
+        />
       ) : null}
     </LevelContainer>
   );

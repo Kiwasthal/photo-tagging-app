@@ -5,7 +5,7 @@ import LevelSelect from '../Views/LevelSelect/LevelSelect';
 import LevelOne from '../Views/Levels/LevelOne';
 import Leaderboard from '../Views/Leaderboard/Leaderboard';
 
-const AnimatedRoutes = ({ clock, userInfo, topUsers }) => {
+const AnimatedRoutes = ({ clock, userInfo, topUsers, addSegment }) => {
   const location = useLocation();
   return (
     <AnimatePresence exitBeforeEnter>
@@ -14,7 +14,13 @@ const AnimatedRoutes = ({ clock, userInfo, topUsers }) => {
         <Route path="/level-select" element={<LevelSelect />} />
         <Route
           path="/level-one"
-          element={<LevelOne clock={clock} userName={userInfo.value} />}
+          element={
+            <LevelOne
+              clock={clock}
+              userName={userInfo.value}
+              addSegment={addSegment}
+            />
+          }
         />
         <Route
           path="/leaderboard"

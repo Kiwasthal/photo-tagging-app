@@ -8,7 +8,7 @@ import Timer from './components/Timer/Timer';
 import { useEffect, useState } from 'react';
 import useInput from './Hooks/useInput';
 import { db } from './Firebase/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, addDoc } from 'firebase/firestore';
 
 const AppBackground = styled.div`
   height: 100vh;
@@ -44,18 +44,27 @@ const BackGroundTitle = styled.h1`
 
 const App = () => {
   const [userTopTimes, setUserTopTimes] = useState([]);
+  const [fetching, setFetching] = useState(false);
   const [time, setTime] = useState(0);
   const [running, setRunning] = useState(true);
   const user = useInput('');
+  const timesCollectionRef = collection(db, 'level-one');
+
+  const handleData = fetching === true;
 
   useEffect(() => {
-    const timesCollectionRef = collection(db, 'level-one');
     const getTimes = async () => {
       const data = await getDocs(timesCollectionRef);
       setUserTopTimes(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
     };
     getTimes();
-  }, []);
+  }, [handleData]);
+
+  const createUserSegment = async () => {
+    setFetching(true);
+    await addDoc(timesCollectionRef, { name: user.value, time: time });
+    setFetching(false);
+  };
 
   const clock = {
     timeLapsed: time,
@@ -74,6 +83,7 @@ const App = () => {
             clock={clock}
             userInfo={user}
             topUsers={userTopTimes}
+            addSegment={createUserSegment}
           />
         </Router>
 

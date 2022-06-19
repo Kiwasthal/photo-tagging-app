@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import UserCard from '../../StyledComponents/userCard';
 
 const dropIn = {
   hidden: {
@@ -45,6 +46,9 @@ const ButtonContainer = styled.div`
 
 const TopTimesDisplayer = styled.div`
   grid-area: 2 / 1 / 3 / 2;
+  grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(calc(100% / 20%), 1fr));
+  display: grid;
   font-size: 24px;
 `;
 
@@ -68,16 +72,9 @@ const Leaderboard = topUsers => {
       <TopTimesDisplayer>
         {topUsers.topUsers.length > 0
           ? topUsers.topUsers.map(user => (
-              <button key={user.id}>{user.name}</button>
+              <UserCard key={user.id} user={user} />
             ))
           : null}
-        <button
-          onClick={() =>
-            console.log(topUsers.topUsers.map(user => console.log(user.name)))
-          }
-        >
-          hey
-        </button>
       </TopTimesDisplayer>
     </StyledLBdModal>
   );
