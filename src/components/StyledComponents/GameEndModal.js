@@ -1,7 +1,8 @@
 import { StyledModal } from './Modal';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Backdrop from './Backdrop';
 import useCursorHandlers from '../../Hooks/useCursorHandlers';
+import { useState } from 'react';
 
 const dropIn = {
   hidden: {
@@ -24,7 +25,8 @@ const dropIn = {
   },
 };
 
-const GameEndModal = ({ name, time, addSegment }) => {
+const GameEndModal = ({ time, addSegment }) => {
+  const location = useLocation();
   const cursorHandlers = useCursorHandlers();
   return (
     <Backdrop>
@@ -35,7 +37,12 @@ const GameEndModal = ({ name, time, addSegment }) => {
         exit="exit"
       >
         <p>TIME : {formatTime(time)}</p>
-        <Link to={'/leaderboard'}>
+        <Link
+          to={{
+            pathname: '/leaderboard',
+            state: { prevPath: location.pathname },
+          }}
+        >
           <button onClick={addSegment} {...cursorHandlers}>
             SUBMIT SCORE
           </button>

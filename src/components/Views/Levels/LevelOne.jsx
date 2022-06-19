@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { LevelContainer } from '../../StyledComponents/LevelContainer';
 import levelImage from '../../../Assets/levelOne.jpg';
 import { CursorContext } from '../../Cursor/CursorContextProvider';
 import { useCallback, useContext } from 'react';
@@ -9,33 +8,9 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import useCursorHandlers from '../../../Hooks/useCursorHandlers';
 import GameEndModal from '../../StyledComponents/GameEndModal';
-
+import LevelContainer from '../../StyledComponents/LevelContainer';
 import waldoImage from '../../../Assets/waldoBG.png';
 import odlawImage from '../../../Assets/odlawBg.jpg';
-
-const swirl = {
-  hidden: {
-    transform: 'scale(0) rotate(720deg)',
-    opacity: 0,
-    transition: {
-      delay: 0.3,
-    },
-  },
-  visible: {
-    transform: ' scale(1) rotate(0deg)',
-    opacity: 1,
-    transition: {
-      duration: 1.3,
-    },
-  },
-  exit: {
-    transform: 'scale(0) rotate(-720deg)',
-    opacity: 0,
-    transition: {
-      duration: 0.3,
-    },
-  },
-};
 
 const LevelImage = styled.img`
   position: relative;
@@ -154,13 +129,7 @@ const LevelOne = ({ clock, userName, addSegment }) => {
   }, [location]);
 
   return (
-    <LevelContainer
-      className="modal"
-      variants={swirl}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-    >
+    <LevelContainer>
       <StyledLeftPartition>
         {waldoDisplay.opacity === 1 ? (
           <Badge color="#84cc16" />

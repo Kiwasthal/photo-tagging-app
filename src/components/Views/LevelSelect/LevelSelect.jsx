@@ -47,6 +47,7 @@ const LevelsContainer = styled.div`
 `;
 
 const LevelSelect = () => {
+  const location = useLocation();
   const cursorHandlers = useCursorHandlers();
 
   return (
@@ -60,7 +61,7 @@ const LevelSelect = () => {
     >
       <NavContainer>
         <h1>Select level</h1>
-        <Link to={'/leaderboard'}>
+        <Link to={'/leaderboard'} state={{ prevPath: location.pathname }}>
           <button {...cursorHandlers}>Leaderboard</button>
         </Link>
       </NavContainer>
