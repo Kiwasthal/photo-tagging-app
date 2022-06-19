@@ -7,6 +7,7 @@ import { useCallback, useContext } from 'react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import GameEndModal from '../../StyledComponents/GameEndModal';
+import { useEffect } from 'react';
 
 const swirl = {
   hidden: {
@@ -42,18 +43,28 @@ const LevelImage = styled.img`
   background-position: center;
 `;
 
-const WaldoBox = styled(motion.div)`
+const SearchBox = styled(motion.div)`
   grid-area: 1 / 2 / 2 / 3;
   position: relative;
   outline: 5px solid transparent;
-  width: 60px;
-  height: 60px;
+  width: 65px;
+  height: 65px;
   border: 5px solid #84cc16;
   border-radius: 50px;
-  right: -79%;
-  top: 3%;
+
   z-index: 1999;
   transition: all 500ms ease-in-out;
+`;
+
+const WaldoBox = styled(SearchBox)`
+  right: -78%;
+  top: 2%;
+  opacity: ${props => props.attrs.opacity};
+`;
+
+const OdLawBox = styled(SearchBox)`
+  left: 2%;
+  top: 76%;
   opacity: ${props => props.attrs.opacity};
 `;
 
@@ -65,6 +76,10 @@ const LevelOne = ({ clock }) => {
     opacity: 0,
     transform: '',
   });
+  const [odLawDisplay, setOdLawDisplay] = useState({
+    opacity: 0,
+    transform: '',
+  });
 
   const waldoClicked = e => {
     e.stopPropagation();
@@ -72,7 +87,14 @@ const LevelOne = ({ clock }) => {
       opacity: 1,
       transform: 'scale(1)',
     });
-    gameEnd();
+  };
+
+  const odlawClicked = e => {
+    e.stopPropagation();
+    setOdLawDisplay({
+      opacity: 1,
+      transform: 'scale(1)',
+    });
   };
 
   const gameEnd = () => {
@@ -93,6 +115,10 @@ const LevelOne = ({ clock }) => {
     onMouseLeave: toggleCursor,
   };
 
+  useEffect(() => {
+    if (waldoDisplay.opacity === 1 && odLawDisplay.opacity === 1) gameEnd();
+  }, [waldoDisplay, odLawDisplay]);
+
   return (
     <LevelContainer
       className="modal"
@@ -101,7 +127,8 @@ const LevelOne = ({ clock }) => {
       animate="visible"
       exit="exit"
     >
-      <WaldoBox attrs={waldoDisplay} {...hoverHandler} />
+      <WaldoBox attrs={waldoDisplay} {...hoverHandler} onClick={waldoClicked} />
+      <OdLawBox {...hoverHandler} attrs={odLawDisplay} onClick={odlawClicked} />
       {gameOver ? <GameEndModal /> : null}
       <LevelImage
         ref={imagehovered}
