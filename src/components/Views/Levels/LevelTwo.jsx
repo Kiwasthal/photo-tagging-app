@@ -9,9 +9,10 @@ import { useLocation } from 'react-router-dom';
 import useCursorHandlers from '../../../Hooks/useCursorHandlers';
 import GameEndModal from '../../StyledComponents/GameEndModal';
 import LevelContainer from '../../StyledComponents/LevelContainer';
-import StyledImage from '../../StyledComponents/StyledImage';
 import waldoImage from '../../../Assets/waldoBG.png';
 import odlawImage from '../../../Assets/odlawBg.jpg';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../../../Firebase/firebase';
 
 const SearchBox = styled(motion.div)`
   grid-area: 1 / 2 / 2 / 3;
@@ -50,7 +51,7 @@ const LevelImage = styled.img`
   width: 100%;
   height: 100%;
 `;
-const LevelTwo = ({ clock, userName, addSegment }) => {
+const LevelTwo = ({ clock, userName }) => {
   const location = useLocation();
   const [, , mistake, setMistake] = useContext(CursorContext);
   const cursorHandlers = useCursorHandlers();
@@ -67,6 +68,12 @@ const LevelTwo = ({ clock, userName, addSegment }) => {
     opacity: 0,
     transform: '',
   });
+
+  const hideAll = () => {
+    setOdLawDisplay({ opacity: 0 });
+    setWaldoDisplay({ opacity: 0 });
+    setWandaDisplay({ opacity: 0 });
+  };
 
   const characterClicked = set => {
     if (!mistake)
@@ -92,12 +99,13 @@ const LevelTwo = ({ clock, userName, addSegment }) => {
   };
 
   const cursorHandleMistake = useCallback(() => {
-    setMistake(() => ({ mistake: true }));
+    if (!mistake) setMistake(() => ({ mistake: true }));
   });
 
   useEffect(() => {
     const gameEnd = () => {
       clock.setRunning(false);
+      hideAll();
       setGameOver(true);
     };
     if (
@@ -106,7 +114,22 @@ const LevelTwo = ({ clock, userName, addSegment }) => {
       wandaDisplay.opacity === 1
     )
       gameEnd();
-  }, [waldoDisplay, odLawDisplay]);
+  });
+
+  const levelTwoCollectionRef = collection(db, 'level-two');
+
+  const createUserSegmentTwo = async () => {
+    if (userName === '')
+      await addDoc(levelTwoCollectionRef, {
+        name: 'Anonymous',
+        time: clock.timeLapsed,
+      });
+    else
+      await addDoc(levelTwoCollectionRef, {
+        name: userName,
+        time: clock.timeLapsed,
+      });
+  };
 
   useEffect(() => {
     clock.setRunning(true);
@@ -128,7 +151,19 @@ const LevelTwo = ({ clock, userName, addSegment }) => {
         {...cursorHandlers}
         onClick={wandaClicked}
       />
-      <LevelImage src={levelImage} attrs={waldoDisplay} {...cursorHandlers} />
+      <LevelImage
+        src={levelImage}
+        attrs={waldoDisplay}
+        {...cursorHandlers}
+        onClick={cursorHandleMistake}
+      />
+      {gameOver ? (
+        <GameEndModal
+          name={userName}
+          time={clock.timeLapsed}
+          addSegment={createUserSegmentTwo}
+        />
+      ) : null}
     </LevelContainer>
   );
 };

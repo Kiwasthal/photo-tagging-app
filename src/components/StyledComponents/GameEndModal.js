@@ -2,7 +2,6 @@ import { StyledModal } from './Modal';
 import { Link, useLocation } from 'react-router-dom';
 import Backdrop from './Backdrop';
 import useCursorHandlers from '../../Hooks/useCursorHandlers';
-import { useState } from 'react';
 
 const dropIn = {
   hidden: {

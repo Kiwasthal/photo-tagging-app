@@ -6,6 +6,8 @@ import { Link, useLocation } from 'react-router-dom';
 import BGimg from '../../../Assets/LeaderBG.png';
 import useCursorHandlers from '../../../Hooks/useCursorHandlers';
 import { useEffect } from 'react';
+import { onSnapshot, collection } from 'firebase/firestore';
+import { db } from '../../../Firebase/firebase';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -15,18 +17,19 @@ const ButtonContainer = styled.div`
 `;
 
 const TopTimesDisplayer = styled.div`
-  height: 100%;
-  width: 100%;
   grid-area: 2 / 1 / 3 / 2;
+  align-items: space-evenly;
+  height: 90%;
+  width: 100%;
   padding: 2vh;
-  display: grid;
-  grid-auto-flow: row;
-  grid-template-rows: repeat(auto-fill, 5%);
-  grid-template-columns: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
   background: url(${BGimg});
   background-repeat: no-repeat;
-  background-position: 100% 87%;
-
+  background-position: 100% 100%;
   font-size: 24px;
 `;
 
@@ -34,16 +37,38 @@ const ScoresButton = styled.button``;
 
 const Leaderboard = ({ topUsers }) => {
   const location = useLocation();
+  const cursorHandlers = useCursorHandlers();
   const [active, setActive] = useState('');
+  const [lvlOneTopTimes, setlvlOneTopTimes] = useState([]);
+  const [lvlTwoTopTimes, setlvlTwoTopTimes] = useState([]);
   const activateLvlOne = () => setActive('one');
   const activateLvlTwo = () => setActive('two');
   const activateLvlThree = () => setActive('three');
   const activateLvlFour = () => setActive('four');
-  const cursorHandlers = useCursorHandlers();
 
   useEffect(() => {
     LoadCorrectLB(location.state, setActive);
   }, [location.state]);
+
+  useEffect(
+    () =>
+      onSnapshot(collection(db, 'level-one'), snapshot =>
+        setlvlOneTopTimes(
+          snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+        )
+      ),
+    []
+  );
+
+  useEffect(
+    () =>
+      onSnapshot(collection(db, 'level-two'), snapshot =>
+        setlvlTwoTopTimes(
+          snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+        )
+      ),
+    []
+  );
 
   return (
     <LeaderBoardModal>
@@ -69,7 +94,7 @@ const Leaderboard = ({ topUsers }) => {
         </Link>
       </ButtonContainer>
       <TopTimesDisplayer>
-        {displayTimeTables(active, topUsers)}
+        {displayTimeTables(active, lvlOneTopTimes, lvlTwoTopTimes)}
       </TopTimesDisplayer>
     </LeaderBoardModal>
   );
@@ -95,11 +120,19 @@ const LoadCorrectLB = (prevPath, activate) => {
   }
 };
 
-function displayTimeTables(active, userTableOne) {
+function displayTimeTables(active, userTableOne, userTableTwo) {
   switch (active) {
     case 'one':
       return userTableOne.length > 0
         ? userTableOne
+            .sort((a, b) => Number(a.time) - Number(b.time))
+            .map((user, index) => (
+              <UserCard key={user.id} user={user} index={index} />
+            ))
+        : null;
+    case 'two':
+      return userTableTwo.length > 0
+        ? userTableTwo
             .sort((a, b) => Number(a.time) - Number(b.time))
             .map((user, index) => (
               <UserCard key={user.id} user={user} index={index} />

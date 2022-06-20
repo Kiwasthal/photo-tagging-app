@@ -5,10 +5,10 @@ import CursorContextProvider from './components/Cursor/CursorContextProvider';
 import Cursor from './components/Cursor/cursor';
 import AnimatedRoutes from './components/AnimatedRoutes/AnimatedRoutes';
 import Timer from './components/Timer/Timer';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useInput from './Hooks/useInput';
 import { db } from './Firebase/firebase';
-import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 
 const AppBackground = styled.div`
   height: 100vh;
@@ -43,30 +43,9 @@ const BackGroundTitle = styled.h1`
 `;
 
 const App = () => {
-  const [userTopTimes, setUserTopTimes] = useState([]);
-  const [fetching, setFetching] = useState(false);
   const [time, setTime] = useState(0);
   const [running, setRunning] = useState(true);
   const user = useInput('');
-  const timesCollectionRef = collection(db, 'level-one');
-
-  const handleData = fetching === true;
-
-  useEffect(() => {
-    const getTimes = async () => {
-      const data = await getDocs(timesCollectionRef);
-      setUserTopTimes(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-    };
-    getTimes();
-  }, [handleData]);
-
-  const createUserSegment = async () => {
-    setFetching(true);
-    if (user.value === '')
-      await addDoc(timesCollectionRef, { name: 'Anonymous', time: time });
-    else await addDoc(timesCollectionRef, { name: user.value, time: time });
-    setFetching(false);
-  };
 
   const clock = {
     timeLapsed: time,
@@ -81,12 +60,7 @@ const App = () => {
       <AppBackground>
         <Router>
           <Timer clock={clock} />
-          <AnimatedRoutes
-            clock={clock}
-            userInfo={user}
-            topUsers={userTopTimes}
-            addSegment={createUserSegment}
-          />
+          <AnimatedRoutes clock={clock} userInfo={user} />
         </Router>
 
         <BackGroundTitle>

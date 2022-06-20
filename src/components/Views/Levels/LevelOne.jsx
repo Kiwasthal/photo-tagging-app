@@ -12,6 +12,8 @@ import LevelContainer from '../../StyledComponents/LevelContainer';
 import StyledImage from '../../StyledComponents/StyledImage';
 import waldoImage from '../../../Assets/waldoBG.png';
 import odlawImage from '../../../Assets/odlawBg.jpg';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../../../Firebase/firebase';
 
 const StyledRightPartition = styled.div`
   grid-area: 1/ 3 / 2 / 4;
@@ -69,7 +71,7 @@ const OdLawBox = styled(SearchBox)`
   opacity: ${props => props.attrs.opacity};
 `;
 
-const LevelOne = ({ clock, userName, addSegment }) => {
+const LevelOne = ({ clock, userName }) => {
   const location = useLocation();
   const [, , mistake, setMistake] = useContext(CursorContext);
   const cursorHandlers = useCursorHandlers();
@@ -104,7 +106,7 @@ const LevelOne = ({ clock, userName, addSegment }) => {
   };
 
   const cursorHandleMistake = useCallback(() => {
-    setMistake(() => ({ mistake: true }));
+    if (!mistake) setMistake(() => ({ mistake: true }));
   });
 
   useEffect(() => {
@@ -113,11 +115,26 @@ const LevelOne = ({ clock, userName, addSegment }) => {
       setGameOver(true);
     };
     if (waldoDisplay.opacity === 1 && odLawDisplay.opacity === 1) gameEnd();
-  }, [waldoDisplay, odLawDisplay]);
+  });
 
   useEffect(() => {
     clock.setRunning(true);
   }, [location]);
+
+  const levelOneCollectionRef = collection(db, 'level-one');
+
+  const createUserSegment = async () => {
+    if (userName === '')
+      await addDoc(levelOneCollectionRef, {
+        name: 'Anonymous',
+        time: clock.timeLapsed,
+      });
+    else
+      await addDoc(levelOneCollectionRef, {
+        name: userName,
+        time: clock.timeLapsed,
+      });
+  };
 
   return (
     <LevelContainer>
@@ -154,7 +171,7 @@ const LevelOne = ({ clock, userName, addSegment }) => {
         <GameEndModal
           name={userName}
           time={clock.timeLapsed}
-          addSegment={addSegment}
+          addSegment={createUserSegment}
         />
       ) : null}
     </LevelContainer>
