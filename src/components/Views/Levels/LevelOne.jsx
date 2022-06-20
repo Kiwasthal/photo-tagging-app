@@ -107,7 +107,7 @@ const LevelOne = ({ clock, userName }) => {
 
   const cursorHandleMistake = useCallback(() => {
     if (!mistake) setMistake(() => ({ mistake: true }));
-  });
+  }, [mistake, setMistake]);
 
   useEffect(() => {
     const gameEnd = () => {

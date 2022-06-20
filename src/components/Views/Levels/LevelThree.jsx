@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import levelImage from '../../../Assets/levelTwo.jpg';
+import levelImage from '../../../Assets/levelThree.jpg';
 import { CursorContext } from '../../Cursor/CursorContextProvider';
 import { useCallback, useContext } from 'react';
 import { motion } from 'framer-motion';
@@ -26,20 +26,26 @@ const SearchBox = styled(motion.div)`
 `;
 
 const WaldoBox = styled(SearchBox)`
-  right: -83.3%;
-  top: 78%;
+  right: -38.3%;
+  top: 54.2%;
   opacity: ${props => props.attrs.opacity};
 `;
 
 const OdLawBox = styled(SearchBox)`
-  left: 29.7%;
-  top: 68%;
+  left: 5%;
+  top: 63%;
   opacity: ${props => props.attrs.opacity};
 `;
 
 const WandaBox = styled(SearchBox)`
-  left: 46.8%;
+  left: 27.3%;
   top: 43%;
+  opacity: ${props => props.attrs.opacity};
+`;
+
+const WizardBox = styled(SearchBox)`
+  left: 76.3%;
+  top: 48.5%;
   opacity: ${props => props.attrs.opacity};
 `;
 
@@ -49,7 +55,7 @@ const LevelImage = styled.img`
   width: 100%;
   height: 100%;
 `;
-const LevelTwo = ({ clock, userName }) => {
+const LevelThree = ({ clock, userName }) => {
   const location = useLocation();
   const [, , mistake, setMistake] = useContext(CursorContext);
   const cursorHandlers = useCursorHandlers();
@@ -66,11 +72,16 @@ const LevelTwo = ({ clock, userName }) => {
     opacity: 0,
     transform: '',
   });
+  const [wizardDisplay, setWizardDisplay] = useState({
+    opacity: 0,
+    transform: '',
+  });
 
   const hideAll = () => {
     setOdLawDisplay({ opacity: 0 });
     setWaldoDisplay({ opacity: 0 });
     setWandaDisplay({ opacity: 0 });
+    setWizardDisplay({ opacity: 0 });
   };
 
   const characterClicked = set => {
@@ -96,6 +107,11 @@ const LevelTwo = ({ clock, userName }) => {
     characterClicked(setWandaDisplay);
   };
 
+  const wizardClicked = e => {
+    e.stopPropagation();
+    characterClicked(setWizardDisplay);
+  };
+
   const cursorHandleMistake = useCallback(() => {
     if (!mistake) setMistake(() => ({ mistake: true }));
   });
@@ -109,21 +125,22 @@ const LevelTwo = ({ clock, userName }) => {
     if (
       waldoDisplay.opacity === 1 &&
       odLawDisplay.opacity === 1 &&
-      wandaDisplay.opacity === 1
+      wandaDisplay.opacity === 1 &&
+      wizardDisplay.opacity === 1
     )
       gameEnd();
   });
 
-  const levelTwoCollectionRef = collection(db, 'level-two');
+  const levelThreeCollectionRef = collection(db, 'level-three');
 
-  const createUserSegmentTwo = async () => {
+  const createUserSegmentThree = async () => {
     if (userName === '')
-      await addDoc(levelTwoCollectionRef, {
+      await addDoc(levelThreeCollectionRef, {
         name: 'Anonymous',
         time: clock.timeLapsed,
       });
     else
-      await addDoc(levelTwoCollectionRef, {
+      await addDoc(levelThreeCollectionRef, {
         name: userName,
         time: clock.timeLapsed,
       });
@@ -149,6 +166,11 @@ const LevelTwo = ({ clock, userName }) => {
         {...cursorHandlers}
         onClick={wandaClicked}
       />
+      <WizardBox
+        attrs={wizardDisplay}
+        {...cursorHandlers}
+        onClick={wizardClicked}
+      />
       <LevelImage
         src={levelImage}
         attrs={waldoDisplay}
@@ -159,11 +181,11 @@ const LevelTwo = ({ clock, userName }) => {
         <GameEndModal
           name={userName}
           time={clock.timeLapsed}
-          addSegment={createUserSegmentTwo}
+          addSegment={createUserSegmentThree}
         />
       ) : null}
     </LevelContainer>
   );
 };
 
-export default LevelTwo;
+export default LevelThree;

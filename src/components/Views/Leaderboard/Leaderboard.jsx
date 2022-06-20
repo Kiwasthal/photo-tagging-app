@@ -33,15 +33,18 @@ const TopTimesDisplayer = styled.div`
   font-size: 24px;
 `;
 
-const ScoresButton = styled.button``;
+const ScoresButton = styled.button`
+  transition: all 200ms ease;
+  border: ${props => props.border};
+`;
 
 const Leaderboard = () => {
   const location = useLocation();
   const cursorHandlers = useCursorHandlers();
   const [active, setActive] = useState('');
-  const [loaded, setLoaded] = useState(false);
   const [lvlOneTopTimes, setlvlOneTopTimes] = useState([]);
   const [lvlTwoTopTimes, setlvlTwoTopTimes] = useState([]);
+  const [lvlThreeTopTimes, setlvlThreeTopTimes] = useState([]);
   const activateLvlOne = () => setActive('one');
   const activateLvlTwo = () => setActive('two');
   const activateLvlThree = () => setActive('three');
@@ -49,7 +52,6 @@ const Leaderboard = () => {
 
   useEffect(() => {
     LoadCorrectLB(location.state.prevPath, setActive);
-    setLoaded(true);
   }, []);
 
   useEffect(
@@ -72,38 +74,61 @@ const Leaderboard = () => {
     []
   );
 
+  useEffect(
+    () =>
+      onSnapshot(collection(db, 'level-three'), snapshot =>
+        setlvlThreeTopTimes(
+          snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+        )
+      ),
+    []
+  );
   return (
     <LeaderBoardModal>
       <ButtonContainer>
         <Link to={'/level-select'}>
           <button {...cursorHandlers}>Level Select</button>
         </Link>
-        <button {...cursorHandlers} onClick={activateLvlOne}>
-          Level One
-        </button>
-        <button {...cursorHandlers} onClick={activateLvlTwo}>
-          Level Two
-        </button>
-        <button {...cursorHandlers} onClick={activateLvlThree}>
-          Level Three
-        </button>
-        <button {...cursorHandlers} onClick={activateLvlFour}>
-          Level Four
-        </button>
-
-        <button
+        <ScoresButton
           {...cursorHandlers}
-          onClick={() => {
-            console.log(location.state);
-          }}
+          onClick={activateLvlOne}
+          border={active === 'one' ? '1px solid red' : 'none'}
         >
-          Home
-        </button>
+          Level One
+        </ScoresButton>
+        <ScoresButton
+          {...cursorHandlers}
+          onClick={activateLvlTwo}
+          border={active === 'two' ? '1px solid red' : 'none'}
+        >
+          Level Two
+        </ScoresButton>
+        <ScoresButton
+          {...cursorHandlers}
+          onClick={activateLvlThree}
+          border={active === 'three' ? '1px solid red' : 'none'}
+        >
+          Level Three
+        </ScoresButton>
+        <ScoresButton
+          {...cursorHandlers}
+          onClick={activateLvlFour}
+          border={active === 'four' ? '1px solid red' : 'none'}
+        >
+          Level Four
+        </ScoresButton>
+
+        <Link to={'/'}>
+          <button {...cursorHandlers}>Home</button>
+        </Link>
       </ButtonContainer>
       <TopTimesDisplayer>
-        {loaded
-          ? displayTimeTables(active, lvlOneTopTimes, lvlTwoTopTimes)
-          : null}
+        {displayTimeTables(
+          active,
+          lvlOneTopTimes,
+          lvlTwoTopTimes,
+          lvlThreeTopTimes
+        )}
       </TopTimesDisplayer>
     </LeaderBoardModal>
   );
@@ -130,7 +155,7 @@ const LoadCorrectLB = (prevPath, activate) => {
   }
 };
 
-function displayTimeTables(active, userTableOne, userTableTwo) {
+function displayTimeTables(active, userTableOne, userTableTwo, userTableThree) {
   switch (active) {
     case 'one':
       return userTableOne.length > 0
@@ -148,6 +173,21 @@ function displayTimeTables(active, userTableOne, userTableTwo) {
               <UserCard key={user.id} user={user} index={index} />
             ))
         : null;
+    case 'three':
+      return userTableThree.length > 0
+        ? userTableThree
+            .sort((a, b) => Number(a.time) - Number(b.time))
+            .map((user, index) => (
+              <UserCard key={user.id} user={user} index={index} />
+            ))
+        : null;
     default:
+      return userTableOne.length > 0
+        ? userTableOne
+            .sort((a, b) => Number(a.time) - Number(b.time))
+            .map((user, index) => (
+              <UserCard key={user.id} user={user} index={index} />
+            ))
+        : null;
   }
 }
