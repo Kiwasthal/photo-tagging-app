@@ -11,16 +11,7 @@ import GameEndModal from '../../StyledComponents/GameEndModal';
 import LevelContainer from '../../StyledComponents/LevelContainer';
 import waldoImage from '../../../Assets/waldoBG.png';
 import odlawImage from '../../../Assets/odlawBg.jpg';
-
-const LevelImage = styled.img`
-  position: relative;
-  grid-area: 1 / 2 / 2 / 3;
-  height: 100%;
-  width: 100%;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-`;
+import LevelImage from '../../StyledComponents/LevelImage';
 
 const StyledRightPartition = styled.div`
   grid-area: 1/ 3 / 2 / 4;
@@ -80,7 +71,7 @@ const OdLawBox = styled(SearchBox)`
 
 const LevelOne = ({ clock, userName, addSegment }) => {
   const location = useLocation();
-  const [, setCursor, mistake, setMistake] = useContext(CursorContext);
+  const [, , mistake, setMistake] = useContext(CursorContext);
   const cursorHandlers = useCursorHandlers();
   const [gameOver, setGameOver] = useState(false);
   const [waldoDisplay, setWaldoDisplay] = useState({

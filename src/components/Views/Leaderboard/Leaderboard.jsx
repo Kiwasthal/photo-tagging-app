@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import BGimg from '../../../Assets/LeaderBG.png';
 import useCursorHandlers from '../../../Hooks/useCursorHandlers';
-import { createBrowserHistory } from 'history';
 import { useEffect } from 'react';
 
 const ButtonContainer = styled.div`
@@ -61,7 +60,7 @@ const Leaderboard = ({ topUsers }) => {
         <button {...cursorHandlers} onClick={activateLvlThree}>
           Level Three
         </button>
-        <button {...cursorHandlers} onClick={activateLvlThree}>
+        <button {...cursorHandlers} onClick={activateLvlFour}>
           Level Four
         </button>
 

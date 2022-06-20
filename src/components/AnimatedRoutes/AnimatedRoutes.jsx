@@ -3,6 +3,7 @@ import Home from '../Views/Home/Home';
 import { AnimatePresence } from 'framer-motion';
 import LevelSelect from '../Views/LevelSelect/LevelSelect';
 import LevelOne from '../Views/Levels/LevelOne';
+import LevelTwo from '../Views/Levels/LevelTwo';
 import Leaderboard from '../Views/Leaderboard/Leaderboard';
 
 const AnimatedRoutes = ({ clock, userInfo, topUsers, addSegment }) => {
@@ -16,6 +17,16 @@ const AnimatedRoutes = ({ clock, userInfo, topUsers, addSegment }) => {
           path="/level-one"
           element={
             <LevelOne
+              clock={clock}
+              userName={userInfo.value}
+              addSegment={addSegment}
+            />
+          }
+        />
+        <Route
+          path="/level-two"
+          element={
+            <LevelTwo
               clock={clock}
               userName={userInfo.value}
               addSegment={addSegment}

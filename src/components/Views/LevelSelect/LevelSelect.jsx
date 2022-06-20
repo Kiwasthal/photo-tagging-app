@@ -69,7 +69,7 @@ const LevelSelect = () => {
         <Link to={'/level-one '}>
           <button {...cursorHandlers}>Level 1</button>
         </Link>
-        <Link to={'/level-one '}>
+        <Link to={'/level-two '}>
           <button {...cursorHandlers}>Level 2</button>
         </Link>
         <Link to={'/level-one '}>
