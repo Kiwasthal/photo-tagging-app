@@ -11,6 +11,10 @@ import GameEndModal from '../../StyledComponents/GameEndModal';
 import LevelContainer from '../../StyledComponents/LevelContainer';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../../Firebase/firebase';
+import {
+  RightPartition,
+  LeftPartition,
+} from '../../StyledComponents/LevelPartitions';
 
 const SearchBox = styled(motion.div)`
   grid-area: 1 / 2 / 2 / 3;
@@ -152,6 +156,14 @@ const LevelFour = ({ clock, userName }) => {
 
   return (
     <LevelContainer>
+      <LeftPartition
+        waldoFound={waldoDisplay.opacity === 1 ? '#84cc16' : '#dc2626'}
+        wandaFound={wandaDisplay.opacity === 1 ? '#84cc16' : '#dc2626'}
+      />
+      <RightPartition
+        odlawFound={odLawDisplay.opacity === 1 ? '#84cc16' : '#dc2626'}
+        wizardFound={wizardDisplay.opacity === 1 ? '#84cc16' : '#dc2626'}
+      />
       <WaldoBox
         attrs={waldoDisplay}
         {...cursorHandlers}

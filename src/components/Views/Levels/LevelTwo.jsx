@@ -11,6 +11,10 @@ import GameEndModal from '../../StyledComponents/GameEndModal';
 import LevelContainer from '../../StyledComponents/LevelContainer';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../../Firebase/firebase';
+import {
+  RightPartition,
+  LeftPartition,
+} from '../../StyledComponents/LevelPartitions';
 
 const SearchBox = styled(motion.div)`
   grid-area: 1 / 2 / 2 / 3;
@@ -43,6 +47,12 @@ const WandaBox = styled(SearchBox)`
   opacity: ${props => props.attrs.opacity};
 `;
 
+const WizardBox = styled(SearchBox)`
+  left: 4.8%;
+  top: 81.2%;
+  opacity: ${props => props.attrs.opacity};
+`;
+
 const LevelImage = styled.img`
   grid-area: 1 / 2 / 2 / 3;
   object-fit: contain;
@@ -66,11 +76,16 @@ const LevelTwo = ({ clock, userName }) => {
     opacity: 0,
     transform: '',
   });
+  const [wizardDisplay, setWizardDisplay] = useState({
+    opacity: 0,
+    transform: '',
+  });
 
   const hideAll = () => {
     setOdLawDisplay({ opacity: 0 });
     setWaldoDisplay({ opacity: 0 });
     setWandaDisplay({ opacity: 0 });
+    setWizardDisplay({ opacity: 0 });
   };
 
   const characterClicked = set => {
@@ -96,6 +111,11 @@ const LevelTwo = ({ clock, userName }) => {
     characterClicked(setWandaDisplay);
   };
 
+  const wizardClicked = e => {
+    e.stopPropagation();
+    characterClicked(setWizardDisplay);
+  };
+
   const cursorHandleMistake = useCallback(() => {
     if (!mistake) setMistake(() => ({ mistake: true }));
   });
@@ -109,7 +129,8 @@ const LevelTwo = ({ clock, userName }) => {
     if (
       waldoDisplay.opacity === 1 &&
       odLawDisplay.opacity === 1 &&
-      wandaDisplay.opacity === 1
+      wandaDisplay.opacity === 1 &&
+      wizardDisplay.opacity === 1
     )
       gameEnd();
   });
@@ -134,6 +155,14 @@ const LevelTwo = ({ clock, userName }) => {
   }, [location]);
   return (
     <LevelContainer>
+      <LeftPartition
+        waldoFound={waldoDisplay.opacity === 1 ? '#84cc16' : '#dc2626'}
+        wandaFound={wandaDisplay.opacity === 1 ? '#84cc16' : '#dc2626'}
+      />
+      <RightPartition
+        odlawFound={odLawDisplay.opacity === 1 ? '#84cc16' : '#dc2626'}
+        wizardFound={wizardDisplay.opacity === 1 ? '#84cc16' : '#dc2626'}
+      />
       <WaldoBox
         attrs={waldoDisplay}
         {...cursorHandlers}
@@ -148,6 +177,11 @@ const LevelTwo = ({ clock, userName }) => {
         attrs={wandaDisplay}
         {...cursorHandlers}
         onClick={wandaClicked}
+      />
+      <WizardBox
+        attrs={wizardDisplay}
+        {...cursorHandlers}
+        onClick={wizardClicked}
       />
       <LevelImage
         src={levelImage}
