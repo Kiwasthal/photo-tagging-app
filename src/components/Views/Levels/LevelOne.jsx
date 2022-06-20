@@ -9,9 +9,9 @@ import { useLocation } from 'react-router-dom';
 import useCursorHandlers from '../../../Hooks/useCursorHandlers';
 import GameEndModal from '../../StyledComponents/GameEndModal';
 import LevelContainer from '../../StyledComponents/LevelContainer';
+import StyledImage from '../../StyledComponents/StyledImage';
 import waldoImage from '../../../Assets/waldoBG.png';
 import odlawImage from '../../../Assets/odlawBg.jpg';
-import LevelImage from '../../StyledComponents/LevelImage';
 
 const StyledRightPartition = styled.div`
   grid-area: 1/ 3 / 2 / 4;
@@ -145,7 +145,7 @@ const LevelOne = ({ clock, userName, addSegment }) => {
         attrs={odLawDisplay}
         onClick={odlawClicked}
       />
-      <LevelImage
+      <StyledImage
         src={levelImage}
         {...cursorHandlers}
         onClick={cursorHandleMistake}

@@ -67,7 +67,12 @@ const Timer = ({ clock }) => {
     return () => clearInterval(interval);
   }, [clock]);
 
-  if (location.pathname === '/level-one' || location.pathname === '/level-two')
+  if (
+    location.pathname === '/level-one' ||
+    location.pathname === '/level-two' ||
+    location.pathname === '/level-three' ||
+    location.pathname === '/level-four'
+  )
     return (
       <LevelTimer
         variants={dropIn}
