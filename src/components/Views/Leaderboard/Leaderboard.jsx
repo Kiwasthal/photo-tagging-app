@@ -45,6 +45,7 @@ const Leaderboard = () => {
   const [lvlOneTopTimes, setlvlOneTopTimes] = useState([]);
   const [lvlTwoTopTimes, setlvlTwoTopTimes] = useState([]);
   const [lvlThreeTopTimes, setlvlThreeTopTimes] = useState([]);
+  const [lvlFourTopTimes, setlvlFourTopTimes] = useState([]);
   const activateLvlOne = () => setActive('one');
   const activateLvlTwo = () => setActive('two');
   const activateLvlThree = () => setActive('three');
@@ -83,6 +84,17 @@ const Leaderboard = () => {
       ),
     []
   );
+
+  useEffect(
+    () =>
+      onSnapshot(collection(db, 'level-four'), snapshot =>
+        setlvlFourTopTimes(
+          snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+        )
+      ),
+    []
+  );
+
   return (
     <LeaderBoardModal>
       <ButtonContainer>
@@ -127,7 +139,8 @@ const Leaderboard = () => {
           active,
           lvlOneTopTimes,
           lvlTwoTopTimes,
-          lvlThreeTopTimes
+          lvlThreeTopTimes,
+          lvlFourTopTimes
         )}
       </TopTimesDisplayer>
     </LeaderBoardModal>
@@ -155,7 +168,13 @@ const LoadCorrectLB = (prevPath, activate) => {
   }
 };
 
-function displayTimeTables(active, userTableOne, userTableTwo, userTableThree) {
+function displayTimeTables(
+  active,
+  userTableOne,
+  userTableTwo,
+  userTableThree,
+  userTableFour
+) {
   switch (active) {
     case 'one':
       return userTableOne.length > 0
@@ -176,6 +195,14 @@ function displayTimeTables(active, userTableOne, userTableTwo, userTableThree) {
     case 'three':
       return userTableThree.length > 0
         ? userTableThree
+            .sort((a, b) => Number(a.time) - Number(b.time))
+            .map((user, index) => (
+              <UserCard key={user.id} user={user} index={index} />
+            ))
+        : null;
+    case 'four':
+      return userTableFour.length > 0
+        ? userTableFour
             .sort((a, b) => Number(a.time) - Number(b.time))
             .map((user, index) => (
               <UserCard key={user.id} user={user} index={index} />

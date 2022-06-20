@@ -149,6 +149,7 @@ const LevelThree = ({ clock, userName }) => {
   useEffect(() => {
     clock.setRunning(true);
   }, [location]);
+
   return (
     <LevelContainer>
       <WaldoBox

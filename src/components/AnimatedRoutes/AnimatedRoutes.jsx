@@ -5,6 +5,7 @@ import LevelSelect from '../Views/LevelSelect/LevelSelect';
 import LevelOne from '../Views/Levels/LevelOne';
 import LevelTwo from '../Views/Levels/LevelTwo';
 import LevelThree from '../Views/Levels/LevelThree';
+import LevelFour from '../Views/Levels/LevelFour';
 import Leaderboard from '../Views/Leaderboard/Leaderboard';
 
 const AnimatedRoutes = ({ clock, userInfo, topUsers }) => {
@@ -25,6 +26,10 @@ const AnimatedRoutes = ({ clock, userInfo, topUsers }) => {
         <Route
           path="/level-three"
           element={<LevelThree clock={clock} userName={userInfo.value} />}
+        />
+        <Route
+          path="/level-four"
+          element={<LevelFour clock={clock} userName={userInfo.value} />}
         />
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>

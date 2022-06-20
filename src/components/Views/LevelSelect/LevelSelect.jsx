@@ -1,8 +1,6 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-import { CursorContext } from '../../Cursor/CursorContextProvider';
-import { useCallback, useContext, useEffect } from 'react';
 import useCursorHandlers from '../../../Hooks/useCursorHandlers';
 
 const dropIn = {
@@ -75,7 +73,7 @@ const LevelSelect = () => {
         <Link to={'/level-three'}>
           <button {...cursorHandlers}>Level 3</button>
         </Link>
-        <Link to={'/level-one '}>
+        <Link to={'/level-four '}>
           <button {...cursorHandlers}>Level 4</button>
         </Link>
       </LevelsContainer>
