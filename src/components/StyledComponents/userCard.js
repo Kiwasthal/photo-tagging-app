@@ -6,7 +6,7 @@ const StyledCard = styled.div`
   border-bottom: 2px solid #e7e5e4;
   width: 20%;
   align-items: center;
-  flex-flow: column-reverse;
+
   font-size: calc(13px + (21 - 16) * ((100vw - 300px) / (1600 - 300)));
 `;
 

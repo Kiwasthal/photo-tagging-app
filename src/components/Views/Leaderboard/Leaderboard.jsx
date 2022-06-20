@@ -35,10 +35,11 @@ const TopTimesDisplayer = styled.div`
 
 const ScoresButton = styled.button``;
 
-const Leaderboard = ({ topUsers }) => {
+const Leaderboard = () => {
   const location = useLocation();
   const cursorHandlers = useCursorHandlers();
   const [active, setActive] = useState('');
+  const [loaded, setLoaded] = useState(false);
   const [lvlOneTopTimes, setlvlOneTopTimes] = useState([]);
   const [lvlTwoTopTimes, setlvlTwoTopTimes] = useState([]);
   const activateLvlOne = () => setActive('one');
@@ -47,8 +48,9 @@ const Leaderboard = ({ topUsers }) => {
   const activateLvlFour = () => setActive('four');
 
   useEffect(() => {
-    LoadCorrectLB(location.state, setActive);
-  }, [location.state]);
+    LoadCorrectLB(location.state.prevPath, setActive);
+    setLoaded(true);
+  }, []);
 
   useEffect(
     () =>
@@ -89,12 +91,19 @@ const Leaderboard = ({ topUsers }) => {
           Level Four
         </button>
 
-        <Link to={'/'}>
-          <button {...cursorHandlers}>Home</button>
-        </Link>
+        <button
+          {...cursorHandlers}
+          onClick={() => {
+            console.log(location.state);
+          }}
+        >
+          Home
+        </button>
       </ButtonContainer>
       <TopTimesDisplayer>
-        {displayTimeTables(active, lvlOneTopTimes, lvlTwoTopTimes)}
+        {loaded
+          ? displayTimeTables(active, lvlOneTopTimes, lvlTwoTopTimes)
+          : null}
       </TopTimesDisplayer>
     </LeaderBoardModal>
   );
@@ -105,6 +114,7 @@ export default Leaderboard;
 const LoadCorrectLB = (prevPath, activate) => {
   switch (prevPath) {
     case '/level-one':
+      activate('one');
       break;
     case '/level-two':
       activate('two');

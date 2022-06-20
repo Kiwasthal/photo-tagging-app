@@ -34,14 +34,10 @@ const GameEndModal = ({ time, addSegment }) => {
         initial="hidden"
         animate="visible"
         exit="exit"
+        onClick={() => console.log(location.pathname)}
       >
         <p>TIME : {formatTime(time)}</p>
-        <Link
-          to={{
-            pathname: '/leaderboard',
-            state: { prevPath: location.pathname },
-          }}
-        >
+        <Link to={'/leaderboard'} state={{ prevPath: location.pathname }}>
           <button onClick={addSegment} {...cursorHandlers}>
             SUBMIT SCORE
           </button>

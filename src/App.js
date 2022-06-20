@@ -62,7 +62,6 @@ const App = () => {
           <Timer clock={clock} />
           <AnimatedRoutes clock={clock} userInfo={user} />
         </Router>
-
         <BackGroundTitle>
           WHERE IS
           <br /> WALDO?
