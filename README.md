@@ -1,6 +1,11 @@
 # Where is Waldo ?
 
+<img src='https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black'/>
+<img src='https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB'/>
+
 ## A photo taggin application
+
+<img src='./readmeimg.png'/>
 
 Reactreating the where is waldo game. The user is greeter with an enter username screen. After inputing his name he can select from a list of available stages ascending in difficulty.
 
